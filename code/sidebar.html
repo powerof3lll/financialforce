@@ -1,0 +1,419 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+
+<script type="text/javascript">
+
+    function toggle_visibility(id) {
+
+        var e = document.getElementById(id);
+
+        if(e.style.display == 'block'){
+            e.style.display = 'none';
+        } else {
+
+            switch(id){
+                case 'reportMenu':
+                    google.script.run.withSuccessHandler(function(data){
+                        populateSelect(data.data);
+                        var b = document.getElementById('badgeCnt');
+                        b.innerHTML = data.count || '0';
+                        e.style.display = 'block';
+                    }).showReportList(true);
+                    break;
+
+                case 'scheduledReports':
+                    google.script.run.withSuccessHandler(function(data){
+                        showScheduledReportsList(data.data);
+                        var b = document.getElementById('badgeCnt');
+                        b.innerHTML = data.count || '0';
+                        e.style.display = 'block';
+                    }).showReportList(true);
+                    break;
+
+                default:
+                    e.style.display = 'block';
+            }
+        }
+
+    }
+    function toggle_ShowDetails(id,labelId) {
+
+        var e = document.getElementById(id);
+         var lbl = document.getElementById(labelId);
+
+        if(e.style.display == 'block'){
+            e.style.display = 'none';
+            lbl.innerHTML= 'Show more...';
+        } else {
+            e.style.display = 'block';
+             lbl.innerHTML= 'Show less...';
+        }
+        
+
+    }
+
+
+    function populateSelect(data){
+
+        var select = document.getElementById('selReportList');
+        //select.options.size = 0; // clear out existing items
+
+        for(var i=select.options.length-1;i>=0;i--)
+        {
+            select.removeChild(select.childNodes[0]);
+        }
+
+        if( data != null ){
+
+            var newOption = document.createElement("option");
+            newOption.text = 'Select a Report';
+            newOption.value = '';
+            select.appendChild(newOption);
+
+            for ( var r in data){
+                newOption = document.createElement("option");
+                newOption.value = data[r].id + "_" + data[r].type + "_" + data[r].name;
+                newOption.text = data[r].name;
+                select.appendChild(newOption);
+            }
+
+        }
+
+    }
+
+
+
+    function removeQuery(i){
+        if (confirm("You are about to delete query.") == true) {
+            google.script.run.withSuccessHandler(onSuccess)
+                    .showRemoveQuery(i);
+        }
+
+    }
+    function editQuery(i){
+        google.script.run.withSuccessHandler(onSuccess)
+                .showEditQueueDialog(i);
+    }
+    function openQueueDialog(){
+        google.script.run.withSuccessHandler(onSuccess)
+                .showQueueDialog();
+    }
+
+    function logoutGSC(){
+        google.script.run.withSuccessHandler(onSuccess)
+                .logoutGSC();
+       
+    }
+
+    function pullSFdata(){
+        google.script.run.withSuccessHandler(onSuccess)
+                .pullSFdata();
+
+    }
+
+    function pushSFdata(value){
+        google.script.run.withSuccessHandler(onSuccess)
+                .pushSFData(value);
+    }
+
+    function previewChunks(){
+        google.script.run.withSuccessHandler(onSuccess)
+                .previewChunks();
+    }
+
+
+
+    function processReport(when){
+        var e = document.getElementById('selReportList');
+        var selectedReport = e.options[e.selectedIndex].value;
+
+        if( when == 'now'){
+            google.script.run.withSuccessHandler(onSuccess)
+                    .reportRunClick(selectedReport, 'now');
+        } else {
+            google.script.run.withSuccessHandler(function(data){
+                //put report in scheduled report list
+                //list scheduled report
+                showScheduledReportsList(data.data);
+
+                var b = document.getElementById('badgeCnt');
+                b.innerHTML = data.numReports || 0;
+
+            }).reportRunClick(selectedReport, 'later');
+        }
+    }
+
+
+    function refreshList(){
+        google.script.run.withSuccessHandler(function(data){
+            //show report list
+        }).refreshReportsList(false);
+
+    }
+
+    function showScheduledReportsList(data){
+        console.log("I'm in show schedule reports list " + JSON.stringify(data) );
+
+        var e = document.getElementById('scheduledReports');
+        e.style.display = 'block';
+
+        var ligrp = document.getElementById("SRList");
+
+        for ( var r in data ){
+            ligrp.innerHTML += "<div class='list-group-item list-group-item-warning'>";
+            ligrp.innerHTML += "<h6 class='list-group-item-header'><span class='h5'>" + data[r].name + "</span></h6>";
+            ligrp.innerHTML += "<p class='list-group-item-text'> Last Run: " + data[r].lastRun;
+            ligrp.innerHTML += "<br/> Status: " + data[r].status;
+            ligrp.innerHTML += "<br/><input type=checkbox onChange=\"toggleRunScheduledReport('" + data[r].id + "')\" name=runSR id=runSR class='checkbox pull-left' value=" + data[r].id + ">  RUN</p></div>";
+
+            e.appendChild(ligrp);
+        }
+
+    }
+
+    function toggleRunScheduledReport(id){
+        var e = document.getElementById('runSR');
+        if( e.checked ){
+            google.script.run.withSuccessHandler(onSuccess)
+                    .updateScheduleReport("RUN",id);
+        } else {
+            google.script.run.withSuccessHandler(onSuccess)
+                    .updateScheduleReport("",id);
+        }
+    }
+
+    function runScheduledReports(){
+        google.script.run.withSuccessHandler(onSuccess)
+                .runScheduledReports();
+    }
+
+
+    function validateSFsession(){
+        google.script.run.withSuccessHandler(function(data){
+            validateSFsession();
+            //   return data;
+            return true;
+        });
+    }
+
+    function closeSidebar(){
+        google.script.host.close();
+    }
+    
+     function refreshQueryQueue(){
+        google.script.run.withSuccessHandler(onSuccess)
+                .refreshQueue();
+                
+        
+
+    }
+    
+    /*
+     * To avoid Errors when HTML runs in IFRAME Sandbox Mode.
+     */
+    function onSuccess()
+    {
+      return true;
+      }
+      
+      
+      var counter;
+      var cnt=10;
+      
+      var timer;
+      function delayrefreshQueryQueue(){
+       
+        counter = setInterval(function () {countDown()}, 1000);
+        timer = setInterval(function () { loginTimer()}, 8000);
+       
+        var lnk = document.getElementById('lnkSFDClogin');
+        lnk.style.display = 'none';
+        
+        var span = document.getElementById('divReloadTimer');
+        span.style.display = 'block';
+        
+         //var span = document.getElementById('btnloggedin');
+        //span.style.display = 'none';
+      }
+       
+       function loginTimer() {
+         refreshQueryQueue();
+       }
+      
+      function countDown() {
+        var span = document.getElementById('spanTime');
+        
+        if (--cnt < 0) cnt=0;
+        span.innerText = cnt;
+        
+       }
+       
+       
+     
+     
+
+</script>
+
+
+
+<? if( !validateSFsession() ) { ?>
+<div style='background-color:#2a94d6; height:700px; padding-top:20px;'>
+    <h3 style='color:#fff; padding:5px; text-align:center'>Welcome to the Google Salesforce Connector Addon!  Please login to your Salesforce Org.</h3>
+    <a id="lnkSFDClogin" href="https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id=<?= CLIENT_ID ?>&redirect_uri=<?= REDIRECT_URI ?>" class="list-group-item list-group-item-primary" onClick='delayrefreshQueryQueue()'> Login Salesforce</a>
+    <button id="btnloggedin" class="btn-success" onClick="refreshQueryQueue()" style="display:block;"> Reload Now</button>
+    <div id="divReloadTimer"  style="display:none;" >
+    <!--<button class="btn-success" onClick="refreshQueryQueue()"> Reload now</button>-->
+      <span> Reloading in <span id="spanTime"></span></span>
+    </div>
+    <script>//delayrefreshQueryQueue();</script>
+<? } ?>
+
+
+
+
+<? if( validateSFsession()  ) { ?>
+<div class="list-group">
+    <a href="#" onClick="toggle_visibility('queue')" class="list-group-item list-group-item-warning">Query Queue  <span class="caret pull-right"></span></a>
+     
+    
+    <div id="queue" style="display:none">
+     <button class="btn btn-small btn-success" onClick="openQueueDialog()"><span class="glyphicon glyphicon-plus"></span></button>
+     <!-- For Refreshing the Query Queue SubMenu -->
+     <button class="btn btn-small btn-success" onClick="refreshQueryQueue()"><span class="glyphicon glyphicon-refresh"></span></button>
+     
+     <br>
+        <? var index=0;
+            var bgType;
+        for each ( var i in Queries){
+           var mid = 'moreInfo' + index;
+           var mid_lbl = 'moreInfoLbl' + index;
+           
+           //Show Active and Inactive Queries with different background colors.
+           if(i.status == 'Yes')
+            bgType = 'list-group-item list-group-item-success';
+           else
+            bgType = 'list-group-item list-group-item';
+            
+        ?>
+
+        <!--
+          * Added style to below div , to remove space between the Query Items.
+         -->
+                         
+        <div class="<?= bgType ?>" style="font-size:11px;color:navy;">
+            <p>
+                <strong>Name :</strong>  <?= i.qname ?><br>                
+                <strong>Active:</strong> <?= i.status ?><br>
+                <strong>Sheet Name:</strong> <?= i.sheetName ?> <br>
+                <strong>Output Mode:</strong> <?= i.qMode ?> <br>
+                
+                <a id="<?= mid_lbl ?>" href="#" onClick="toggle_ShowDetails(<?= mid ?>,<?= mid_lbl ?>)" >Show More...</a>
+                <div id="<?= mid ?>" style="display:none">
+                            
+                            <strong>Query:</strong>  <?= i.query ?><br>
+                            
+                            <? if( i.parentExtField != 'null' ){ ?>
+                            <strong>ParentExtField: </strong><?= i.parentExtField ?><br>
+                            <? } ?>
+                            
+                            <? if( i.childExtField != 'null'  ){ ?>
+                            <strong>ChildExtField:</strong> <?= i.childExtField  ?><br>
+                            <? } ?>
+                            
+                            <? if( i.chunkSize != 'null' ){ ?>
+                            <strong>Chunk Size:</strong> <?= i.chunkSize ?><br>
+                            <? } ?>
+                            
+                            <? if(i.chunkCol != 'null' ){ ?>
+                            <strong>Chunk Col: </strong><?= i.chunkCol ?><br>
+                            <? } ?>
+                            
+                            
+                            <? if(i.templateTotalColumn != 'null' ){ ?>
+                            <label class='label label-warning'>Template</label><br>
+                            <strong>Total Column Name: </strong><?= i.templateTotalColumn ?><br>
+                            <? } ?>
+                            
+                            
+                            <? if(i.templateLabel1 != 'null'  ){ ?>
+                            <strong>Line 1 Label: </strong><?= i.templateLabel1 ?><br>
+                            <? } ?>
+                            
+                            
+                            <? if(i.templateFormula1 != 'null'  ){ ?>
+                            <strong>Line 1 Formula: </strong><?= i.templateFormula1 ?><br>
+                            <? } ?>
+                            
+                            
+                            <? if(i.templateLabel2 != 'null'  ){ ?>
+                            <strong>Line 2 Label: </strong><?= i.templateLabel2 ?><br>
+                            <? } ?>
+                            
+                            
+                            <? if(i.templateFormula2 != 'null'   ){ ?>
+                            <strong>Line 2 Formula: </strong><?= i.templateFormula2 ?><br>
+                            <? } ?>
+                
+                </div>                
+                <button class="btn btn-small btn-danger glyphicon glyphicon-minus align-right" onClick="removeQuery(<?= i.num ?>)" style="padding: 0px 6px;float: right;"></button>
+                <button class="btn btn-small btn-warning glyphicon glyphicon-pencil align-right" onClick="editQuery(<?= i.num ?>)" style="padding: 0px 4px;float: right; margin-right: 3px;"></button>                
+                <br>
+           
+        </div><!--well-->
+        
+        <? index++; } //end for  
+         if( index>0) { ?>
+        <button class="btn btn-small btn-success glyphicon glyphicon-plus" onClick="openQueueDialog()"></button>
+         <!-- For Refreshing the Query Queue SubMenu -->
+        <button class="btn btn-small btn-success glyphicon" onClick="refreshQueryQueue()"><span class="glyphicon glyphicon-refresh"></span></button>
+         <? } ?>
+    </div><!--queue-->
+
+    <a href="#" class="list-group-item list-group-item-success" onClick="toggle_visibility('qactions')">Query Actions  <span class="caret pull-right"></span></a>
+    <div id="qactions" style='display:none'>
+        <div class="list-group">
+            <a href="#" onClick="pullSFdata()" class="list-group-item list-group-item-warning">Pull Records</a>
+            <a href="#" onClick="pushSFdata('false')" class="list-group-item list-group-item-warning">Push Records</a>
+            <a href="#" onClick="pushSFdata('true')" class="list-group-item list-group-item-warning">Push Chunks</a>
+            <a href="#" onClick="previewChunks()" class="list-group-item list-group-item-warning">Preview Chunks</a>
+
+
+        </div>
+    </div>
+
+
+    <a id='report' href="#" class="list-group-item list-group-item-info" onClick="toggle_visibility('reportMenu')">Reports  <span class="caret pull-right"></span></a>
+
+    <div id="reportMenu" style='display:none'>
+        <br>
+        <select class="form-control" name='selReportList' id='selReportList'>
+        </select>
+        <br>
+        <div class="button-group">
+            <button class="btn btn-sm btn-success" onClick="processReport('now')">Run Report</button>
+            <button class="btn btn-sm btn-warning" onClick="processReport('later')">Schedule Reports</button>
+        </div>
+        <br>
+        <label class='h5 list-group-item list-group-item-warning' onClick="toggle_visibility('scheduledReports')">Scheduled Reports <span id=badgeCnt name=badgeCnt class='badge pull-right'></span></label>
+        <div id=scheduledReports name=scheduledReports style='display:none'>
+            <div id=SRList name=SRList class='list-group'> </div>
+            <div class='btn-group' id=SRbtnGroup name=SRbtnGroup>
+                <button class='btn btn-sm btn-primary' onClick='refreshList()'>Refresh List</button>
+                <button class='btn btn-sm btn-success' onClick='runScheduledReports()' >Run Reports</button>
+            </div>
+
+        </div>
+
+    </div>
+
+   
+
+
+    <a href="https://login.salesforce.com/secur/logout.jsp" onClick="logoutGSC()" class="list-group-item list-group-item-danger">Log out</a>
+    <? } ?>
+</div>
+
+
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>

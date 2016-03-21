@@ -1,0 +1,2825 @@
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//www.lightningdesignsystem.com/assets/styles/slds.css" type="text/css" />
+
+<script src="//code.jquery.com/jquery-2.1.4.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+
+<style>
+    .hide-me{
+        display: none;
+    }
+    
+    #selQuery{
+        width: 480px;
+    }
+    
+    .query-wrap-card{
+        margin-bottom: 5px;
+    }
+    
+    .query-wrap-card .slds-card__body{
+        padding-bottom: 0px;
+        padding-top: 5px;
+    }
+
+    .stacked-btns-wrap button{
+        width: 110px;
+        font-size: 13px;
+    }
+    .slds-x-small-button--stacked:first-child{
+        margin-bottom: -5px;
+    }
+    .stacked-btn-divider{
+        border-top: 1px solid #cfd7e6;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 100%;
+        display: block;
+    }
+    .slds-tabs--scoped__item{
+        text-align: center;
+        min-width: 33.3%;
+    }
+
+    .slds-tabs--scoped__link{
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+
+    .available-tables-1 li.slds-list__item,
+    .available-tables-2 li.slds-list__item,
+    .available-tables-3 li.slds-list__item{
+        cursor: move;
+    }
+
+    .slds-tabs--scoped__link:hover,
+    .slds-tabs--scoped__link:active,
+    .slds-tabs--scoped__link:focus{
+        text-decoration: none !important;
+    }
+
+    .pager .previous button{
+        float: left;
+    }
+
+    .pager .next button{
+        float: right;
+    }
+
+    .pager{
+        position: relative;
+        width: 100%;
+        margin-bottom: 0;
+        margin-top: 10px;
+    }
+
+    .slds-list__item{
+        background-color: #f4f6f9;
+        border: 1px solid #d8dde6;
+        border-radius: 0.25rem;
+        background-clip: padding-box;
+        padding: 0.5rem;
+        list-style: none;
+    }
+
+    .obj-name-label{
+        font-weight: bold;
+    }
+
+    .slds-card{
+        border: none;
+    }
+
+    #tab-scoped-1,
+    #tab-scoped-2,
+    #tab-scoped-3{
+        padding: 5px;
+    }
+
+    #tab-scoped-1 .border,
+    #tab-scoped-2 .border,
+    #tab-scoped-3 .border{
+        border: 1px solid #cfd7e6;
+        border-radius: 3px;
+        height: 380px;
+        overflow-y: auto;
+        overflow-x: visible;
+    }
+
+    #tab-scoped-1 .available-tables-1,
+    #tab-scoped-2 .available-tables-2,
+    #tab-scoped-3 .available-tables-3{
+        width: 90%;
+        margin-left: 5%;
+        margin-bottom: 12px;
+        margin-top: 12px;
+    }
+    #tab-scoped-1 .selected-tables-1{
+        margin-bottom: 12px;
+        margin-top: 12px;
+    }
+    #tab-scoped-1 .selected-tables-1 li{
+        width: 165px;
+        margin-left: 30px;
+        position: relative;
+    }
+    #tab-scoped-1 .selected-tables-1 li:first-child{
+        margin-left: 12px;
+    }
+    #tab-scoped-1 .slds-card,
+    #tab-scoped-2 .slds-card,
+    #tab-scoped-3 .slds-card{
+        border-radius: 0;
+    }
+    
+    #tab-scoped-1 .slds-card__body,
+    #tab-scoped-2 .slds-card__body,
+    #tab-scoped-3 .slds-card__body{
+        padding: 12px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-radius: 3px;
+        border: none;
+        border-bottom: 1px solid #cfd7e6;
+    }
+    #tab-scoped-1 .st-1-bar-1{
+        position: absolute;
+        border-top: 1px solid #cfd7e6;
+        width: 10px;
+        left: -10px;
+        top: 16px;
+    }
+    #tab-scoped-1 .st-1-bar-2{
+        position: absolute;
+        border-left: 1px solid #cfd7e6;
+        left: -10px;
+        height: 46px;
+        top: -30px;
+    }
+    #tab-scoped-1 .selected-tables-1 li:nth-child(1) .st-1-bar-1,
+    #tab-scoped-1 .selected-tables-1 li:nth-child(1) .st-1-bar-2{
+        display: none !important;
+    }
+    #tab-scoped-1 .selected-tables-1 li:nth-child(2) .st-1-bar-2{
+        height: 26px;
+        top: -10px;
+    }
+    #tab-scoped-1 .selected-tables-1 li .st-1-bar-3{
+        display: none;
+    }
+    #tab-scoped-1 .selected-tables-1 li.active .st-1-bar-3{
+        display: block;
+        position: absolute;
+        border-top: 1px solid #cfd7e6;
+        top: 16px;
+        width: 15%;
+        right: -15%;
+    }
+    #tab-scoped-1 .selected-tables-1 li:nth-child(1) .st-1-bar-3{
+        width: 26%;
+        right: -26%;
+    }
+    #tab-scoped-1 .border-2{
+        display: none;
+        position: absolute;
+        border: 1px solid #cfd7e6;
+        top: 84px;
+        width: 26%;
+        right: 4%;
+        height: 290px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding: 12px;
+    }
+    #tab-scoped-1 .border-2 .slds-text-body--small{
+        font-size: 0.75rem;
+        font-weight: normal;
+    }
+    #tab-scoped-1 .selected-tables-1 p{
+        width: 90%;
+        height: 20px;
+        cursor: pointer;
+    }
+    #tab-scoped-1 .selected-tables-1 a{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    #tab-scoped-2 .slds-grid--vertical .slds-col--padded{
+        min-height: 170px;
+        border-bottom: 1px solid #cfd7e6;
+        padding-top: 8px;
+    }
+
+    #tab-scoped-2 .slds-grid--vertical .outer-select-box,
+    #tab-scoped-3 .slds-grid--vertical .outer-select-box{
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 100px;
+    }
+    #tab-scoped-2 .slds-grid--vertical .slds-text-label,
+    #tab-scoped-3 .slds-grid--vertical .slds-text-label{
+        margin-bottom: 3px;
+    }
+    #tab-scoped-2 .where-list-item,
+    #tab-scoped-3 .where-list-item{
+        position: relative;
+    }
+    #tab-scoped-2 .where-list-item p,
+    #tab-scoped-3 .where-list-item p{
+        width: 36%;
+    }
+    #tab-scoped-2 .where-list-item .inner-select-box,
+    #tab-scoped-3 .where-list-item .inner-select-box{
+        width: 20%;
+        position: absolute;
+        right: 42%;
+        top: 1px;
+    }
+    #tab-scoped-2 .where-list-item .inner-text-box,
+    #tab-scoped-3 .where-list-item .inner-text-box{
+        width: 30%;
+        position: absolute;
+        right: 10%;
+        top: 1px;
+    }
+    #tab-scoped-2 .where-list-item .inner-text-box input,
+    #tab-scoped-3 .where-list-item .inner-text-box input{
+        min-height: 34px;
+        height: 34px;
+    }
+    #tab-scoped-2 .where-list-item a,
+    #tab-scoped-3 .where-list-item a{
+        width: 7%;
+        position: absolute;
+        right: 0;
+        top: 10px;
+    }
+    #tab-scoped-3 .border-3{
+        height: 180px;
+    }
+    #tab-scoped-3 .slds-grid--vertical .slds-col:first-child{
+        margin-bottom: 20px;
+    }
+    #tab-scoped-3 .slds-grid--vertical .slds-col--padded{
+        margin-top: 12px;
+    }
+
+    .slds-popover{
+        position: absolute;
+        top: 133px;
+        right: 6%;
+        width: 300px;
+        min-height: 300px;
+    }
+    .slds-popover .slds-popover__header{
+        padding: 12px;
+    }
+    .slds-popover .slds-col p{
+        width: 65%;
+        position: absolute;
+        left: 0;
+        top: 6px;
+    }
+    .slds-popover .slds-col .load-button{
+        width: 20%;
+        position: absolute;
+        right: 16%;
+        text-align: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .slds-popover .slds-col .trash-button{
+        width: 15%;
+        position: absolute;
+        right: 0;
+        top: -8px;
+        text-align: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .slds-popover .slds-col{
+        position: relative;
+        height: 40px;
+        margin-top: 6px;
+        border-bottom: 1px solid #cfd7e6;
+    }
+    .droppable-2{
+        padding: 12px !important;
+        padding-bottom: 75px !important;
+    }
+
+    /* Dragging */
+    .slds-list__item.draggable-1,
+    .slds-list__item.draggable-2,
+    .slds-list__item.draggable-3{
+        width: 165px;
+        border: 1px solid #d8dde6;
+        border-radius: 0.25rem;
+        background-clip: padding-box;
+        padding: 0.5rem;
+        list-style: none;
+    }
+
+    .order-clause-wrap{
+        min-height: 200px;
+    }
+    
+    .saved-queries-popover{
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+    
+    .limit-text{
+        width: 50% !important;
+    }
+    
+    .slds-input.limit-text{
+        width: 100% !important;
+    }
+    
+    .select-fields-label{
+        margin-top: 10px;
+    }
+    
+    #border-2{
+        padding-top: 0;
+    }
+    
+    .selQuery-fake{
+        width: 480px;
+    }
+
+    .filter-logic{
+        padding: 12px;
+    }
+
+    .where-item-index{
+        font-weight: bold;
+    }
+    
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+    // Configurations
+    var WHERE_VALUE_PLACEHOLDER = "<value>";
+    var MAX_LIMIT_VALUE = 50000;
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////// Execute Server Side Scripts /////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /**
+    * Get all the SObjects
+    */
+    function qGenGetObjects(){
+        google.script.run.withSuccessHandler(qGenGetObjectsSuccess).getObjects();
+    }
+    
+    /**
+     * Get all fields of sObject
+     *
+     * @param sObj The salesforce object
+     * @param callback The callback to be executed after the fields are retrieved
+     */
+    function qGenGetSObjectsFields(sObj, callback){
+        google.script.run.withSuccessHandler(callback ? callback : qGenGetSObjectsFieldsSuccess).getSObjectsFields(sObj.name);
+    }
+    
+    /**
+     * Get child relationships of sObject
+     *
+     * @param sObj The salesforce object
+     * @param callback The callback to be executed after the child relationships are retrieved
+     */
+    function qGenGetSObjectsChildRelationships(sObj, callback){
+        google.script.run.withSuccessHandler(callback ? callback : qGenGetSObjectsChildRelationshipsSuccess).getSObjectsChildRelationships(sObj.name);
+    }
+    
+    /**
+     * Get Saved Query List
+     */
+    function qGenGetSavedQueryListFromSheet(){
+        google.script.run.withSuccessHandler(qGenGetSavedQueryListFromSheetSuccess).getSavedQueryListFromSheet();
+    }
+    
+    /**
+    * Delete saved query from sheet by index
+    */
+    function qGenDeleteQueryFromSavedQueryList(index){
+        google.script.run.withSuccessHandler(qGenDeleteQueryFromSavedQueryListSuccess).deleteQueryFromSavedQueryList(index);
+    }
+    
+    /**
+    * Run Query
+    */
+    function qGenQuerySF(query){
+        google.script.run.withSuccessHandler(qGenQuerySFSuccess).querySF(query);
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////// Execute Server Side Scripts Ends /////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////// UI Button Handlers //////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        /**
+        * Create Button handler
+        */
+        qGenGetObjects();
+        $("#create-query-btn").click(function(){
+            $("#query-text").val('');
+            $("#configs").hide();
+            $("#qGenWrap").show();
+            
+            $(".query-saved").hide();
+            $(".query-create").show();
+        });
+        
+        /**
+        * Edit Button handler
+        */
+        $("#edit-query-btn").click(function(){
+            var query = $("#selQuery").val();
+            $("#query-text").val(query);
+            $("#configs").hide();
+            $("#qGenWrap").show();
+            
+            $(".query-create").hide();
+            $(".query-saved").show();
+        });
+        
+        /**
+         * Switch between Tabs
+         */
+        var currentTabIndex = 1;
+        $(".slds-tabs--scoped__item").click(function(){
+            currentTabIndex = $(this).data("tab");
+
+            $(".slds-tabs--scoped__item").removeClass("slds-active");
+            $(this).addClass("slds-active");
+
+            $(".slds-tabs--scoped__content").removeClass("slds-show");
+            $(".slds-tabs--scoped__content").addClass("slds-hide");
+
+            var thisDrawId = "#"+$(this).children("a").attr("aria-controls");
+            $(thisDrawId).removeClass("slds-hide");
+            $(thisDrawId).addClass("slds-show");
+
+            showHidePager(currentTabIndex);
+        });
+
+        /**
+         * The Next button
+         */
+        $("#next").click(function(){
+            if(currentTabIndex > 0 && currentTabIndex < 3){
+                goToTab(currentTabIndex+1);
+            }
+            showHidePager(currentTabIndex);
+        });
+
+        /**
+         * The Previous button
+         */
+        $("#previous").click(function(){
+            if(currentTabIndex > 1 && currentTabIndex < 4){
+                goToTab(currentTabIndex-1);
+            }
+            showHidePager(currentTabIndex);
+        });
+
+        /**
+         * The Run Query Button
+         */
+        $("#run-query").click(function(){
+            var query = $("#query-text").val();
+            $("#qGenWrap").hide();
+            $("#results-table-wrap").show();
+            qGenQuerySF(query);
+        });
+
+        /**
+         * The Save Query Button
+         */
+        $("#save-query").click(function(){
+            var query = $("#query-text").val();
+            $("#selQuery").val(query);
+            $(".selQuery-fake").html(query);
+            $("#qGenWrap").hide();
+            $("#configs").show();
+            
+            $(".query-create").hide();
+            $(".query-saved").show();
+        });
+
+        /**
+         * The Load Query button
+         */
+        $("#load-query").click(function(){
+            $(".slds-popover").toggle();
+            qGenGetSavedQueryListFromSheet();
+        });
+        
+        /**
+         * Load single query from the saved query list
+         */
+        $(document).on("click", ".saved-queries-wrap .load-button", function(){
+            $("#query-text").val($(this).data("query"));
+            $(".slds-popover").toggle();
+            
+            parseQueryToObject();
+        });
+        
+        /**
+         * Delete Query from sheet
+         */
+        var deletingQuery = false;
+        $(document).on("click", ".saved-queries-wrap .trash-button", function(){
+            if(deletingQuery){
+                return;
+            }
+        
+            var index = $(this).data("index");
+            if(confirm("Your are about to delete a saved query.") == true){
+                deletingQuery = true;
+                qGenDeleteQueryFromSavedQueryList(index);  
+            }
+        });
+        
+        /**
+         * Go to specific tab by index
+         */
+        function goToTab(index){
+            $("#tab-" + index).click();
+        }
+
+        /**
+         * Shows and Hides the Pages Buttons
+         */
+        function showHidePager(index){
+            if(index == 1){
+                $("#next").show();
+                $("#previous").hide();
+            }else if(index == 2){
+                $("#next").show();
+                $("#previous").show();
+                renderSecondTab();
+            }else if(index == 3){
+                $("#next").hide();
+                $("#previous").show();
+                renderThirdTab();
+            }
+        }
+        showHidePager(1);
+        
+        
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////// UI Button Handlers End //////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////// Logic Related Stuffs Start ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        /**
+        * Contains all sObjects
+        */
+        var allSObjects = [];
+        
+        /**
+         *
+         * The Main Object Which will be used to bind with the UI
+         * @type {Array} List of selected SObjects with their fields and other details
+         */
+        var theQueryObject = [];
+
+        /**
+         * The Limit value
+         */
+        var limit = null;
+
+        /**
+         * Query Data and UI binder function (OBJECT to STRING)
+         */
+        function parseAndDrawQuery() {
+            /**
+             * If fields are selected
+             */
+            var queryObject = _.filter(theQueryObject, function(obj){
+                if(obj.fields){
+                    if(obj.fields.length > 0){
+                        return true;
+                    }
+                }
+            });
+            
+            /**
+             * Check if objects/fields exists or not
+             */
+            if (!queryObject[0] || !queryObject[0].fields || queryObject[0].fields.length == 0) {
+                $("#query-text").val('');
+                return;
+            }
+
+            /**
+             * Static part
+             */
+            var sSelect = ' SELECT ';
+            var fFrom = ' FROM ';
+            var createQuery = '';
+
+            createQuery = sSelect;
+            
+            /**
+             * Create parent query
+             */
+            var parentFields = queryObject[0].fields;
+            var parentName = queryObject[0].name;
+            var queryObjectSize = queryObject.length;
+            
+            _.each(parentFields, function(field, ind) {
+                if(queryObject.length == 1 && ind == parentFields.length -1){
+                    createQuery += ' ' + field;
+                }else{
+                    createQuery += ' ' + field + ',';
+                }
+            });
+
+            /**
+             * Create children queries
+             */
+            _.each(queryObject, function(child, index) {
+
+                /**
+                 * skip zero index for children
+                 */
+                if (index != 0) {
+                    if(!child.fields){
+                        return;
+                    }
+                    
+                    if(child.fields.length == 0){
+                        return;
+                    }
+
+                    createQuery += ' (';
+                    createQuery += sSelect;
+                    _.each(child.fields, function(field, ind) {
+                        if(ind == child.fields.length - 1){
+                            createQuery += ' ' + field;
+                        }else{
+                            createQuery += ' ' + field + ',';
+                        }   
+                    });
+                    createQuery += fFrom;
+
+                    /**
+                     * remove bad chars
+                     */
+                    createQuery = createQuery.replace(', from', ' from ');
+                    
+                    if(child.name.indexOf('_') != -1){
+                        createQuery += child.name.split('_')[0] + 's' + '__c';
+                    }else{
+                        //createQuery += child.name + 's';
+                        
+                        var cRs = [];
+                        cRs = theQueryObject[0].childRelationships;
+                        for(var cRsIndex = 0; cRsIndex < cRs.length; cRsIndex++) {
+                            if(cRs[cRsIndex].childSObject == child.name) {
+                                createQuery += cRs[cRsIndex].relationshipName;
+                                // Don't concatenate mutiple child fields
+                                break;
+                            }
+                                
+                        }
+                    }
+
+                    if(index == queryObject.length - 1){
+                        createQuery += ' )';
+                    }else{
+                        createQuery += ' ), ';
+                    }
+                }
+            });
+
+            createQuery += fFrom;
+            createQuery += parentName;
+
+            /**
+             * remove bad chars
+             */
+            createQuery = createQuery.replace(', from', ' from ');
+            createQuery = createQuery.replace(',from', ' from ');
+            createQuery = createQuery.replace(',  from', ' from ');
+
+            // Add where clause
+            createQuery = addWhereClause(createQuery, queryObject);
+
+            // Add order by clause
+            createQuery = addOrderByClause(createQuery, queryObject);
+
+            // Add limit clause
+            createQuery = addLimitClause(createQuery);
+
+            $("#query-text").val(createQuery);
+        }
+
+        /**
+         * Constructs and adds the LIMIT clause to the query string
+         *
+         * @param createQuery The query string
+         * @return The updated query string
+         */
+        function addLimitClause(createQuery){
+            if(isLimitValid(limit)){
+                createQuery += " LIMIT " + limit;
+            }
+            return createQuery;
+        }
+
+        /**
+         * Decides if the limit is valid
+         *
+         * @param limitStr The limit string
+         * @return true if the limit is valid, false otherwise
+         */
+        function isLimitValid(limitStr){
+            if(!limitStr || isNaN(limitStr)){
+                return false;
+            }
+            var limitNumber = Number(limitStr);
+            return limitNumber >= 0 && limitNumber % 1 === 0 && limitNumber <= MAX_LIMIT_VALUE;
+        }
+
+        /**
+         * Constructs and adds the ORDER BY clause to the query string
+         *
+         * @param createQuery The query string
+         * @param queryObject The query object
+         * @return The updated query string
+         */
+        function addOrderByClause(createQuery, queryObject){
+            if(queryObject[0].order && queryObject[0].order.length){
+                createQuery += " ORDER BY ";
+                _.each(queryObject[0].order, function(orderElement, index) {
+                    createQuery += [orderElement.name, orderElement.type, orderElement.nulls].join(" ");
+                    if(index < queryObject[0].order.length - 1){
+                        createQuery += ", ";
+                    }
+                });
+            }
+            return createQuery;
+        }
+
+        /**
+         * Constructs and adds the ORDER BY clause to the query string
+         *
+         * @param createQuery The query string
+         * @param queryObject The query object
+         * @return The updated query string
+         */
+        function addWhereClause(createQuery, queryObject){
+            if(queryObject[0].whereData && queryObject[0].whereData.length){
+                createQuery += " WHERE ";
+                // If we have filter logic, use it and inore conjunctions
+                if(queryObject[0].filterLogic && isFilterLogicValid(queryObject[0].filterLogic, queryObject[0].whereData.length / 2)){
+                    
+                    var whereExpr = "";
+                    var regex = /\d+/g;
+
+                    var matches, output = [];
+                    while (matches = regex.exec(queryObject[0].filterLogic)) {
+                        output.push(matches);
+                    }
+                    var matchIndex = 0;
+                    for (var i = 0; i < queryObject[0].filterLogic.length; ) {
+                        var currentMatchedIndex;
+                        var currentMatchedNumber;
+                        var currentMatchedLength;
+                        if(matchIndex < output.length){
+                            currentMatchedIndex = output[matchIndex].index;
+                            currentMatchedNumber = Number(output[matchIndex][0]);
+                            currentMatchedLength = output[matchIndex][0].length;
+                        }
+                        if(i === currentMatchedIndex){
+                            var whereElement = queryObject[0].whereData[(currentMatchedNumber - 1) * 2];
+                            whereExpr += [whereElement.name, whereElement.operator, whereElement.value ? whereElement.value : WHERE_VALUE_PLACEHOLDER].join(" ");
+                            i += currentMatchedLength;
+                            matchIndex++;
+                        } else {
+                            whereExpr += queryObject[0].filterLogic[i];
+                            i++;
+                        }
+                    }
+                    createQuery += whereExpr;
+                } else {
+                    _.each(queryObject[0].whereData, function(whereElement, index) {
+                        if(whereElement.type === "field"){
+                            createQuery += [whereElement.name, whereElement.operator, whereElement.value ? whereElement.value : WHERE_VALUE_PLACEHOLDER].join(" ");
+                        } else if(whereElement.type === "conjunction"){
+                            createQuery += " " + whereElement.value + " ";
+                        }
+                    });
+                }
+            }
+            return createQuery;
+        }
+
+        /**
+         * Determines if the filter logic is valid
+         *
+         * @param filterLogic The filter logic string (e.g. 1 AND (2 OR 3))
+         * @param whereElementsCount The total number of where clause elements
+         * @return true if the filter logic is valid, false otherwise
+         */
+        function isFilterLogicValid(filterLogic, whereElementsCount){
+            // Check parantheses
+            var tempFilterLogic = filterLogic.replace(/[^\(\)]/g, "");
+            var prevString = tempFilterLogic;
+            while(tempFilterLogic){
+                tempFilterLogic = tempFilterLogic.replace(/\(\)/g, "");
+                if(prevString === tempFilterLogic){
+                    // If nothing changed, the expression is not valid
+                    return false;
+                }
+                prevString = tempFilterLogic;
+            }
+            // Check operators/operands
+            var tempFilterLogic = filterLogic.replace(/[\(\)]/g, " ");
+            var splittedFilterLogic = tempFilterLogic.split(/AND|OR/i);
+            var valid = true;
+            _.each(splittedFilterLogic, function(element, idx){
+                element = element.trim();
+                if(!element || isNaN(element)){
+                    valid = false;
+                }
+                var index = Number(element);
+                if(index - 1 > whereElementsCount || index < 0 || index % 1 !== 0){
+                    valid = false;
+                }
+            });
+            return valid;
+        }
+        
+        /**
+         * SOQL to Object function  (STRING to OBJECT)
+         *
+         * @param soqlQuery The soql string (the query)
+         * @param callback The callback to be executed after the object is created 
+         */
+        function soqlToObject(soqlQuery, callback) {
+            if(!soqlQuery){
+                return false;
+            }
+            
+            // replace multiple spaces with a single one / remove spaces
+            soqlQuery = soqlQuery.replace(/\s\s+/g, " ");
+            soqlQuery = soqlQuery.replace(/\(\s/g, "(");
+            soqlQuery = soqlQuery.replace(/\s\)/g, ")");
+            
+            //the Query object
+            var theQueryObject = [];
+            var theStringObj = [];
+            var splitByWhereClause = soqlQuery.split(/\sWHERE\s/i);
+            var elemList = splitByWhereClause[0].split(',');
+
+            //elemListAfter trimming
+            var elemListAfterTrim = [];
+
+            for(var ind1 = 0; ind1 < elemList.length; ind1++) {
+                elemListAfterTrim.push(elemList[ind1].trim());
+            }
+
+            //elemListAfter trimming and spacing
+            var elemListAfterTrimAndSpacing = [];
+
+            for(var ind2 = 0; ind2 < elemListAfterTrim.length; ind2++) {
+                var helperArray = elemListAfterTrim[ind2].split(' ');
+                for(var ind3 = 0; ind3 < helperArray.length; ind3++) {
+                    theStringObj.push(helperArray[ind3]);
+                }
+            }
+
+            var lElems = [];
+            var rElems = [];
+
+            for(var ind4 = 0; ind4 < theStringObj.length; ind4++) {
+                if(theStringObj[ind4].indexOf('(') != -1) {
+                    lElems.push(ind4);
+                } else if(theStringObj[ind4].indexOf(')') != -1) {
+                    rElems.push(ind4);
+                }
+            }
+
+            //fetch children
+            for(var ind5 = 0; ind5 < lElems.length; ind5++) {
+                var kid = theStringObj.slice(lElems[ind5], 1+rElems[ind5]);
+                var cQObj = atomicQueryToObj(kid);
+
+                theQueryObject.push(cQObj);
+
+                for(var ind6 = 0; ind6 < kid.length; ind6++) {
+                    var elemIndex = theStringObj.indexOf(kid[ind6]);
+                    
+                    //delete the item in theStringObj
+                    delete theStringObj[elemIndex];
+                }
+            }
+
+            var finalStringObj = [];
+            for(var ind7 = 0; ind7 < theStringObj.length; ind7++) {
+                if(theStringObj[ind7] !== undefined)
+                    finalStringObj.push(theStringObj[ind7]);
+            }
+
+            var pQObj = atomicQueryToObj(finalStringObj);
+            theQueryObject.unshift(pQObj);
+
+            callback(theQueryObject, soqlQuery);
+        }
+
+        /**
+         * Populates the WHERE clause data on the query object
+         *
+         * @param whereClause The WHERE clause string
+         * @param theQueryObject The query object 
+         */
+        function populateWhereData(whereClause, theQueryObject){
+
+            var tempWhereClause = whereClause.replace(/\(|\)/g, '');
+            var filterLogic = whereClause;
+            var fieldElements = whereClause.replace(/\(|\)/g, '').split(/\sAND\s|\sOR\s/i);
+            theQueryObject[0].whereData = [];
+            _.each(fieldElements, function(fieldElement, index){
+                var filterData = fieldElement.trim().split(/<|>|=|LIKE/i);
+                filterLogic = filterLogic.replace(fieldElement, index + 1);
+                // For each where 
+                if(filterData.length === 2){
+                    var fieldName = filterData[0].trim();
+                    var fieldValue = filterData[1].trim();
+                    var fieldOperator = fieldElement.split(" ")[1].trim();
+                    var fieldObj = _.where(theQueryObject[0].allFields, {name: fieldName})[0];
+                    if(fieldObj){
+                        // Update the previous conjunction first
+                        if(index > 0 && theQueryObject[0].whereData.length > 1){
+                            var prevConjunction = theQueryObject[0].whereData[theQueryObject[0].whereData.length - 1];
+                            prevConjunction.name = fieldName;
+                            prevConjunction.label = fieldObj.label;
+                        }
+                        theQueryObject[0].whereData.push({
+                            name: fieldName,
+                            label: fieldObj.label,
+                            operator: fieldOperator,
+                            type: 'field',
+                            value: fieldValue
+                        });
+                        tempWhereClause = tempWhereClause.replace(fieldElement, "").trim();
+                        if(tempWhereClause){
+                            var conjunction = tempWhereClause.split(" ")[0].trim();
+                            theQueryObject[0].whereData.push({
+                                type: 'conjunction',
+                                value: conjunction
+                            });
+                            tempWhereClause = tempWhereClause.replace(conjunction, "").trim();
+                        }
+                    }
+                }
+            });
+            // Determine filter logic if parantheses are used
+            if(whereClause.indexOf("(") >= 0 && isFilterLogicValid(filterLogic, theQueryObject[0].whereData.length / 2)){
+                theQueryObject[0].filterLogic = filterLogic;
+            }
+        }
+
+        /**
+         * Populates the ORDER BY clause data on the query object
+         *
+         * @param orderByClause The ORDER BY clause string
+         * @param theQueryObject The query object 
+         */
+        function populateOrderByData(orderByClause, theQueryObject){
+            var fieldElements = orderByClause.split(",");
+            theQueryObject[0].order = [];
+            _.each(fieldElements, function(fieldElement, index){
+                var fieldData = fieldElement.trim().split(" ");
+                // For each order by field 
+                if(fieldData.length === 4){
+                    var fieldName = fieldData[0].trim();
+                    var fieldObj = _.where(theQueryObject[0].allFields, {name: fieldName})[0];
+                    if(fieldObj){
+                        theQueryObject[0].order.push({
+                            name: fieldName,
+                            label: fieldObj.label,
+                            nulls: fieldData[2].trim() + " " + fieldData[3].trim(),
+                            type: fieldData[1].trim()
+                        });
+                    }
+                }
+            });
+        }
+
+        /**
+        * Generate child query object for (STRING to OBJECT)
+        */
+        function atomicQueryToObj(kid) {
+            //create children query
+            var childQueryObj = {};
+            var childQueryFields = kid.slice(1, kid.length-1);
+            var childQueryTable = kid[kid.length-1].split(')')[0];
+
+            //temporarily set fields in lowerCase
+            var childQueryFieldsLower = [];
+
+            for(var indd1 = 0; indd1 < childQueryFields.length; indd1++) {
+                childQueryFieldsLower.push(childQueryFields[indd1].toLowerCase());
+            }
+
+            //skip from clause
+            var fromIndex = childQueryFieldsLower.indexOf("from");
+            childQueryFields = childQueryFields.slice(0, fromIndex);
+
+            //set children query
+            childQueryObj.fields = childQueryFields;
+            childQueryObj.name = childQueryTable;
+
+            return childQueryObj;
+        }
+        
+        
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////// Logic Related Stuffs End /////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////// While Editing //////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /**
+         * Query Data and UI binder function
+         */
+        function parseQueryToObject(){
+            var query = $("#query-text").val();
+            if(!query){
+                query = $("#selQuery").val();
+            }
+            
+            soqlToObject(query, function(queryObj, soqlQuery){
+                if(queryObj && queryObj.length){
+                    theQueryObject = queryObj;
+
+                    childRelationshipOnEdit = true;
+                    qGenGetSObjectsChildRelationships(theQueryObject[0], function(childRelationships){
+                        qGenGetSObjectsChildRelationshipsSuccess(childRelationships);    
+                        qGenGetSObjectsFields(theQueryObject[0], function(allFields){
+                            var splitByWhereClause = soqlQuery.split(/\sWHERE\s/i);
+                            var splitByOrderByClause = soqlQuery.split(/\sORDER BY\s/i);
+                            var splitByLimitClause = soqlQuery.split(/\sLIMIT\s/i);
+                            theQueryObject[0].allFields = allFields;
+                            // Parse WHERE clause
+                            if(splitByWhereClause.length === 2){
+                                var whereClauseString = splitByWhereClause[1].split(/\sORDER BY\s/i)[0].split(/\sLIMIT\s/i)[0];
+                                populateWhereData(whereClauseString.trim(), theQueryObject);
+                            }
+                            // Parse ORDER BY clause
+                            if(splitByOrderByClause && splitByOrderByClause.length === 2){
+                                var orderByClauseString = splitByOrderByClause[1].split(/\sLIMIT\s/i)[0];
+                                populateOrderByData(orderByClauseString.trim(), theQueryObject);
+                            }
+                            // Parse LIMIT clause
+                            if(splitByLimitClause && splitByLimitClause.length === 2){
+                                var limitClauseString = splitByLimitClause[1].trim();
+                                if(isLimitValid(limitClauseString)){
+                                    limit = limitClauseString;
+                                }
+                            }
+                            showHidePager($(".slds-tabs--scoped__nav .slds-active").data("tab"));
+                        });
+                    });
+                }
+            });
+        }
+        
+        /**
+        * After getting child relationships for the parent
+        */
+        function qGenGetSObjectsChildRelationshipsSuccess(childRelationships){
+            theQueryObject[0].childRelationships = childRelationships.childRelationships;
+            
+            if(childRelationshipOnEdit){
+                childRelationshipOnEdit = false;
+                processChildRelationshipOnEdit(childRelationships);
+            }else{
+                drawFirstTab();    
+            }
+        }
+
+        /**
+        * Processes child relationships on edit button
+        */
+        var childRelationshipOnEdit = false;
+        function processChildRelationshipOnEdit(childRelationshipsObject){
+            var childRelationships = childRelationshipsObject.childRelationships;
+            var newTheQueryObject = theQueryObject;
+            theQueryObject = [];
+            
+            var parent = _.where(allSObjects, {name: newTheQueryObject[0].name})[0];
+            parent.fields = newTheQueryObject[0].fields;
+            parent.childRelationships = childRelationships;
+            theQueryObject.push(parent);
+            _.each(newTheQueryObject, function(object, index){
+                var child = {};
+                if(index != 0){
+                    var pluralName = object.name;
+                    var apiName = '';
+                    
+                    _.each(childRelationships, function(relationship, index){
+                        if(relationship.relationshipName == pluralName){
+                            apiName = relationship.childSObject;
+                        }
+                    });
+                    
+                    _.each(allSObjects, function(obj, i){
+                        if(apiName == obj.name){
+                            child = obj;
+                            child.fields = object.fields;
+                            theQueryObject.push(child);
+                        }
+                    });
+                }
+            });
+
+            drawFirstTab();
+        }
+        
+        /**
+         * Callback when saved query list arrives
+         * @param queries {Array} List of available queries
+         */
+        function qGenGetSavedQueryListFromSheetSuccess(queries){
+            var html = '';
+            _.each(queries, function(q, i){
+                html += '<div class="slds-col">' +
+                '<p class="slds-truncate" title="'+q+'">'+q+'</p>' +
+                '<button class="slds-button slds-button--neutral slds-button--small load-button" data-query="'+q+'">Load</button>' +
+                '<button class="slds-button slds-button--neutral slds-button--small trash-button" data-index="'+(i+3)+'">' +
+                '<span class="glyphicon glyphicon-trash"></span>' +
+                '</button>' +
+                '</div>';
+            });
+            $(".saved-queries-wrap").html(html);
+        }
+        
+        /**
+         * Callback when Query is deleted
+         * @param result {Boolean} If query is deleted or not
+         */
+        function qGenDeleteQueryFromSavedQueryListSuccess(result){
+            deletingQuery = false;
+            if(result){
+                qGenGetSavedQueryListFromSheet();    
+            }
+        };
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////// While Editing Ends /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////// Tab 1 Code Starts ///////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /**
+         * Sets up the objects and initializes the query popu[]
+         *
+         * @param data The retrieved objects
+         * @return true if there are no errors, false otherwise
+         */
+        function qGenGetObjectsSuccess(data){
+            if(data.title == 'ERROR'){
+                $("#errorBox").html(data.message);
+                $("#errorBox").removeClass("hide");
+                return false;
+            } else {
+                /**
+                * Select only required objects
+                */
+                var requiredObjects = _.filter(data, function(object){
+                   if(object.createable == true || object.updateable == true || object.queryable == true){
+                        return true;
+                    }
+                });
+                
+                allSObjects = requiredObjects;
+                
+                if($("#selQuery").val()){
+                    parseQueryToObject();
+                }else{
+                    drawFirstTab();    
+                }
+                
+                return true;
+            }
+        }
+
+        /**
+         * Draws the Select Tables and Fields Tab contents
+         */
+        function drawFirstTab(){
+            /**
+             * Draws Available Tables
+             */
+            var searchTableTemplate = '<div class="slds-form-element">' +
+                '<div class="slds-form-element__control">' +
+                '<input id="search-tables" class="slds-input" type="text" placeholder="Filter Tables" />' +
+                '</div></div><br/>';
+            $(".available-tables-1").html(searchTableTemplate);
+            _.each(allSObjects, function(object, key){
+                var selectedChildRelationships = _.where(theQueryObject.slice(1, theQueryObject.length), {name: object.name});
+                if(selectedChildRelationships.length === 0){
+                    var allObjectsHtml = '<li class="slds-list__item draggable-1" data-name="'+ object.name +'" data-label="'+ object.label +'">' +
+                            '<p class="slds-truncate">'+ object.label +'</p>' +
+                            '</li>';
+                    $(".available-tables-1").append(allObjectsHtml);
+                }
+            });
+
+            /**
+             * Draws Selected Tables
+             */
+            $( ".droppable-wrap-1 ul").html('');
+            _.each(theQueryObject, function(object, key){
+                drawSelectedItem(object);
+            });
+            
+            hideUnrelatedObjects()
+
+            enableDragAndDrop();
+            $(".border-2").hide();
+        }
+        
+        /**
+         * Hides Sobjects which are not child of the selected parent object
+         */
+        function hideUnrelatedObjects(){
+            if(theQueryObject[0]){
+                if(theQueryObject[0].childRelationships){
+                    var childRelationshipNamesArray = [];
+                    var childRelationships = theQueryObject[0].childRelationships;
+                    _.each(childRelationships, function(childRelationship, index){
+                        childRelationshipNamesArray.push(childRelationship.childSObject);
+                    });
+                    
+                    _.each($(".draggable-1"), function(draggable, index){
+                        var child = $(draggable);
+                        var childName = child.data("name");
+                        if(childRelationshipNamesArray.indexOf(childName) > -1){
+                            child.show();
+                        }else{
+                            child.remove();
+                        }
+                    });
+                }
+            }
+        }
+
+        /**
+         * Enables drag and drop for the Available Tables list
+         */
+        var dropComplete = false;
+        function enableDragAndDrop(){
+            /**
+             * Enable Drag
+             */
+            $( ".draggable-1" ).draggable({ revert: "invalid", scroll: false, helper: 'clone', appendTo: 'body',
+                start: function(){
+                    dragStart($(this));
+                },
+                drag: function(){},
+                stop: function(){
+                    dragStop($(this));
+                }
+            });
+
+            /**
+             * Enable Drop
+             */
+            $( ".droppable-wrap-1" ).droppable({
+                drop: function(event, ui){
+                    dropped(event, ui);
+                }
+            });
+        }
+
+        /**
+         * Drag start callback for the Available Tables List
+         * @param elem {Object} jQuery object of the element that is being dragged
+         */
+        function dragStart(elem){
+            elem.hide();
+            dropComplete = false;
+            $('body').css('cursor','move');
+        }
+
+        /**
+         * Drag stop callback
+         * @param elem {Object} jQuery object of the element that is being dragged
+         */
+        function dragStop(elem){
+//            if(dropComplete){
+//                elem.remove();
+//            }else{
+//                elem.show();
+//            }
+        }
+
+        /**
+         * Drop callback
+         * @param event {Object} The dropping event
+         * @param ui {Object} The jQuery object of the element that is being dropped
+         */
+        function dropped(event, ui){
+            dropComplete = true;
+            var draggable = ui.draggable;
+            var objectName = draggable.data("name");
+            var object = _.where(allSObjects, {name: objectName})[0];
+
+            drawSelectedItem(object);
+            saveObjectsData('dragStop', objectName);
+        }
+
+        /**
+         * Draws a Table Item in the selected tables list
+         * @param objectName {String} The API name of the Table
+         */
+        function drawSelectedItem(object){
+            var droppableHtml = '<li class="slds-list__item" data-name="'+ object.name +'">' +
+                    '<p class="slds-truncate">' + object.label + '</p>' +
+                    '<span class="st-1-bar-1"></span>' +
+                    '<span class="st-1-bar-2"></span>' +
+                    '<span class="st-1-bar-3"></span>' +
+                    '<a href="javascript:">' +
+                    '<span class="glyphicon glyphicon-trash"></span>' +
+                    '</a></li>';
+
+            $('body').css('cursor','default');
+            $( ".droppable-wrap-1 ul").append(droppableHtml);
+        }
+
+        /**
+         * Saves any modifications done to the SObjects
+         * @param event
+         * @param objectName
+         */
+        function saveObjectsData(event, objectName){
+            if(event == 'trashFirst'){
+                theQueryObject = [];
+            }else if(event == 'trash'){
+                theQueryObject = _.reject(theQueryObject, function(obj, index){
+                    if(obj.name == objectName){
+                        return true;
+                    }
+                });
+            }else if(event == 'dragStop'){
+                var object = _.where(allSObjects, {name: objectName})[0];
+                theQueryObject.push(object);
+                
+                if(theQueryObject.length == 1){
+                    qGenGetSObjectsChildRelationships(object);
+                }
+            }
+            parseAndDrawQuery();
+        }
+
+        /**
+         * Draw Fields of selected sObject
+         * @param currentFields {Array} Array of available fields of the selected sObject
+         */
+        function drawFields(currentFields, currentObj){
+            var currentName = currentObj.name;
+            /**
+             * Insert Label and All Fields
+             */
+            var html = '<div class="slds-form-element">' +
+                    '<label class="slds-form-element__label" for="search-field">Search Fields</label>' +
+                    '<div class="slds-form-element__control">' +
+                    '<input class="slds-input" type="text" id="search-field" data-obj-name="'+ currentName +'" data-obj-label="'+ currentObj.label +'" />' +
+                    '</div></div>' +
+
+                    '<label class="slds-form-element__label select-fields-label">Select Fields:</label>' +
+                    '<div class="slds-form-element slds-truncate all-fields-wrap">' +
+                    '<label class="slds-checkbox" for="all-fields">' +
+                    '<input name="checkbox" type="checkbox" id="all-fields" />' +
+                    '<span class="slds-checkbox--faux"></span>' +
+                    '<span class="slds-text-body--small">All Fields</span>' +
+                    '</label></div>';
+            $(".border-2").html(html);
+
+            /**
+             * Insert Fields
+             */
+            _.each(currentFields, function(field, index){
+                var template = '<div class="slds-form-element slds-truncate select-fields" data-name="'+ field.name +'" data-field-label="'+ field.label +'">' +
+                        '<label class="slds-checkbox" for="checkbox-'+ field.name.toLowerCase() +'">' +
+                        '<input name="checkbox" type="checkbox" class="field-checkbox" id="checkbox-'+ field.name.toLowerCase() +'" data-name="'+ field.name +'" />' +
+                        '<span class="slds-checkbox--faux"></span>' +
+                        '<span class="slds-text-body--small">'+ field.label +'</span>' +
+                        '</label> </div>';
+                $(".border-2").append(template);
+            });
+
+            /**
+             * Checks already checked fields in the list
+             */
+            var fields = _.where(theQueryObject, { name: currentName })[0].fields;
+            if(fields){
+                _.each(fields, function(fieldName, index){
+                    activateAllFields = false;
+                    activateFields = false;
+                    
+                    /**
+                     * For case insensitivity of fields
+                     */
+                    $("#checkbox-" + fieldName.toLowerCase()).click();
+                    
+                    activateAllFields = true;
+                    activateFields = true;
+                });
+            }
+            $(".border-2").show();
+        }
+        
+        /**
+        * Gets sObject fields
+        */
+        var currentObjectNameWhileLoading = null;
+        function qGenGetSObjectsFieldsSuccess(fields){
+            _.find(theQueryObject, function(obj, index){
+            
+                if(obj.name == currentObjectNameWhileLoading){
+                    theQueryObject[index].allFields = fields;
+                    drawFields(fields, obj);
+                    
+                    $(".selected-tables-1 > li").removeClass("active");
+                    $(".border-2").show();
+                    _.find($(".selected-tables-1 > li"), function(elem, index){
+                        if($(elem).data("name") == currentObjectNameWhileLoading){
+                           $(elem).addClass("active");
+                           $(elem).children(".st-1-bar-3").show();
+                           return true;
+                        }
+                    });
+                }
+            });
+            
+            currentObjectNameWhileLoading = null;
+            return true;
+        }
+
+        /**
+         * Select Item from Selected Tables handler
+         */
+        $(document).on("click", ".selected-tables-1 > li > p", (function(){
+            if(currentObjectNameWhileLoading){
+                return;
+            }
+            
+            currentObjectNameWhileLoading = $(this).closest("li").data("name");
+            var currentObject = _.where(theQueryObject, {name: currentObjectNameWhileLoading})[0];
+            
+            if(currentObject.allFields){
+                qGenGetSObjectsFieldsSuccess(currentObject.allFields);
+            }else{
+                /**
+                 * Describe sObject
+                 */
+                qGenGetSObjectsFields(currentObject);   
+            }
+        }));
+
+        /**
+         * Trash Icon of Selected Objects except the Parent Object
+         */
+        $(document).on("click", ".droppable-wrap-1 .selected-tables-1 li:not(:first-child) a", function(){
+            var currentName = $(this).closest("li").data("name");
+            saveObjectsData('trash', currentName);
+            drawFirstTab();
+        });
+
+        /**
+         * Trash Icon of Selected Parent Object
+         */
+        $(document).on("click", ".droppable-wrap-1 .selected-tables-1 li:first-child a", function(){
+            /**
+             * Remove all selected objects if parent object is removed
+             */
+            saveObjectsData('trashFirst');
+            drawFirstTab();
+        });
+
+        
+        /**
+         * Search Tables
+         */
+         $(document).on("keyup", "#search-tables", function(){
+             var searchText = $(this).val();
+             
+             _.each($(".draggable-1"), function(elem, index){
+                if($(elem).data("label").toLowerCase().indexOf(searchText.toLowerCase()) > -1){
+                    $(elem).show();
+                }else{
+                    $(elem).hide();
+                }
+            });
+         });
+        
+        /**
+         * Search Fields
+         */
+        $(document).on("keyup", "#search-field", function(){
+            var searchText = $(this).val();
+            var currentName = $(this).data("obj-name");
+            var currentObject = _.where(theQueryObject, {name: currentName});
+            
+            if(searchText){
+                $(".all-fields-wrap").hide();
+            }else{
+                $(".all-fields-wrap").show();
+            }
+
+            _.each($(".select-fields"), function(elem, index){
+                if($(elem).data("field-label").toLowerCase().indexOf(searchText.toLowerCase()) > -1){
+                    $(elem).show();
+                }else{
+                    $(elem).hide();
+                }
+            });
+        });
+
+        /**
+         * Selects All Fields
+         * Handling Checkboxes of SLDS requires extra work
+         * Because it hides the original checkbox and shows a span
+         * which is not two-way binded
+         */
+        var activateAllFields = true;
+        var activateFields = true;
+        $(document).on("click", "#all-fields", function(){
+            if(activateAllFields == false){
+                activateAllFields = true;
+                return;
+            }
+
+            var checked = $("#all-fields").is(":checked");
+            if(checked){
+                _.each($(".field-checkbox"), function(elem, index){
+                    if(!$(elem).is(":checked")){
+                        activateFields = false;
+                        $(elem).click();
+                    }
+                });
+            }else{
+                _.each($(".field-checkbox"), function(elem, index){
+                    if($(elem).is(":checked")){
+                        activateFields = false;
+                        $(elem).click();
+                    }
+                });
+            }
+            saveFieldsData();
+        });
+
+        /**
+         * Selects individual Fields
+         * Handling Checkboxes of SLDS requires extra work
+         * Because it hides the original checkbox and shows a span
+         * which is not two-way binded
+         */
+        $(document).on("click", ".field-checkbox", function(){
+            if(activateFields == false){
+                activateFields = true;
+                return;
+            }
+
+            var allChecked = true;
+            _.each($(".field-checkbox"), function(elem, index){
+                if(!$(elem).is(":checked")){
+                    if($("#all-fields").is(":checked")){
+                        activateAllFields = false;
+                        $("#all-fields").click();
+                    }
+                    allChecked = false;
+                }
+            });
+
+            if(allChecked){
+                if(!$("#all-fields").is(":checked")){
+                    activateAllFields = false;
+                    $("#all-fields").click();
+                }
+            }
+            saveFieldsData();
+        });
+
+        /**
+         * Saves any modifications done with the fields of all the selected SObjects
+         */
+        function saveFieldsData(){
+            var currentObjectName = $(".selected-tables-1 .slds-list__item.active").data("name");
+            var selectedFields = [];
+
+            /**
+             * Get Selected fields from UI
+             */
+            _.each($(".field-checkbox:checked"), function(elem, index){
+                selectedFields.push($(elem).data("name"));
+            });
+
+            /**
+             * Pushes the selected fields to theQueryObject
+             */
+            _.each(theQueryObject, function(obj, index){
+                if(obj.name == currentObjectName){
+                    theQueryObject[index].fields = selectedFields;
+                }
+            });
+            parseAndDrawQuery();
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////// Tab 1 Code Ends /////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////// Tab 2 Code Starts ///////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        /**
+         * Renders the Available Fields section and Where Clause Section
+         */
+        function renderSecondTab(){
+            $(".available-fields-wrap").html('');
+            $(".where-clause-wrap").html('');
+
+            _.each(theQueryObject, function(obj, index){
+                var html = '<ul data-name="'+ obj.name +'" class="slds-list--vertical slds-has-cards--space has-selections available-tables-2">' +
+                        '<label class="slds-form-element__label">'+ obj.label +'</label>';
+
+                if(obj.allFields){
+                    _.each(obj.allFields, function(fieldObj, ind){
+                        var field = fieldObj.name;
+                        html += '<li class="slds-list__item draggable-2 draggable-for-'+ obj.name +'" data-name="'+ field +'" data-obj-name="'+ obj.name +'">' +
+                                '<p class="slds-truncate">'+ fieldObj.label +'</p>' +
+                                '</li>';
+                    });
+
+                    /**
+                     * Adds item Available Fields list
+                     */
+                    html += '</ul>';
+                    $(".available-fields-wrap").append(html);
+
+                    /**
+                     * Draws droppable containers
+                     */
+                    var containerHtml = '<div class="slds-col--padded droppable-2 droppable-for-'+ obj.name +'" data-name="'+ obj.name +'">' +
+                            '<div class="slds-form-element__label obj-name-label">'+ obj.label +'</div>' +
+                            '<ul class="slds-list--vertical slds-has-cards--space has-selections"></ul>' +
+                            '</div>';
+                    $(".where-clause-wrap").append(containerHtml);
+                    enableDroppable(obj);
+                }
+
+                if(obj.whereData){
+                    _.each(obj.whereData, function(data, ind){
+                        if(data.type == 'field'){
+                            drawWhereClauseElement(obj, data, ind / 2 + 1);
+                        }
+                    });
+
+                    /**
+                     * Populates Where Clause data
+                     */
+                    _.each(obj.whereData, function(data, ind){
+                        var elem = $(".where-obj-"+(ind/2));
+                        if(data.type == 'field'){
+                            elem.find(".where-select-operator").val(data.operator);
+                            elem.find(".where-input-value").val(data.value);
+                        }else if(data.type == 'conjunction'){
+                            elem.find(".where-select-conjunction").val(data.value);
+                        }
+                    });
+                }
+
+                if(obj.filterLogic){
+                    $(".filter-logic input").val(obj.filterLogic);
+                }
+
+            });
+            enableDragnDropTab2();
+            initControls();
+        }
+
+        /**
+         * Enables drag and drop for the Available Fields list
+         */
+        var dropCompleteTab2 = false;
+        function enableDragnDropTab2(){
+            $( ".draggable-2" ).draggable({ revert: "invalid", scroll: false, helper: 'clone', appendTo: 'body',
+                start: function(){
+                    dragStartTab2($(this));
+                },
+                drag: function(){},
+                stop: function(){
+                    dragStopTab2($(this));
+                }
+            });
+        }
+        enableDragnDropTab2();
+
+        /**
+         * Droppable to accept certain type of Draggables
+         */
+        function enableDroppable(obj){
+            /**
+             * Droppable target
+             */
+            $( ".droppable-for-" + obj.name ).droppable({
+                accept: ".draggable-for-"+ obj.name,
+                drop: function(event, ui){
+                    droppedTab2(event, ui);
+                }
+            });
+        }
+
+        /**
+         * Drag start callback for the Available Fields List
+         * @param elem {Object} jQuery object of the element that is being dragged
+         */
+        function dragStartTab2(elem){
+            dropCompleteTab2 = false;
+            $('body').css('cursor','move');
+        }
+
+        /**
+         * Drag stop callback
+         * @param elem {Object} jQuery object of the element that is being dragged
+         */
+        function dragStopTab2(elem){
+            elem.show();
+        }
+
+        /**
+         * Drop callback
+         * @param event {Object} The dropping event
+         * @param ui {Object} The jQuery object of the element that is being dropped
+         */
+        function droppedTab2(event, ui){
+            dropCompleteTab2 = true;
+
+            var draggable = ui.draggable;
+            var fieldName = draggable.data("name");
+            var objName = draggable.data("obj-name");
+
+            var obj = _.where(theQueryObject, {name: objName})[0];
+            var fieldObj = _.where(obj.allFields, {name: fieldName})[0];
+
+            $('body').css('cursor','default');
+            drawWhereClauseElement(obj, fieldObj, $(".where-clause-wrap ul li").length + 1);
+            saveWhereData(objName, fieldName);
+            initControls();
+        }
+
+        /**
+         * Get whereData Values from UI and saves to theQueryObject on Dropped event
+         */
+        function saveWhereData(objectName, fieldName){
+            var container = $(".droppable-for-" + objectName);
+            var whereData = [];
+            _.each(container.find(".where-item"), function(elem){
+                var type = $(elem).data("type");
+                var object = {};
+                object.name = $(elem).data("name");
+                object.label = $(elem).data("label");
+                object.type = type;
+                if(type == 'field'){
+                    object.operator = $(elem).find("select").val();
+                    object.value = $(elem).find("input").val();
+                }else if(type == 'conjunction'){
+                    object.value = $(elem).find("select").val();
+                }
+                whereData.push(object);
+            });
+
+            _.find(theQueryObject, function(object, index){
+                if(object.name == objectName){
+                    theQueryObject[index].whereData = whereData;
+                    return true;
+                }
+            });
+            parseAndDrawQuery();
+        }
+
+        /**
+         * Enables the tracking of Where Clause UI Elements value change
+         */
+        function initControls(){
+
+            /**
+             * Saves the Operator select change to theQueryObject
+             */
+            $(".where-select-operator").change(function(){
+                var fieldName = $(this).data('field-name');
+                var objectName = $(this).data('object-name');
+                var fieldIdx = $(this).parents(".where-list-item").find(".delete-where-field").data("field-idx");
+                var value = $(this).val();
+                _.find(allSObjects, function(obj, index){
+                    if(obj.name == objectName){
+                        allSObjects[index].whereData[fieldIdx*2].operator = value;
+                        return true;
+                    }
+                });
+                parseAndDrawQuery();
+            });
+
+            /**
+             * Saves the Value change to theQueryObject
+             */
+            $(".where-input-value").keyup(function() {
+                var fieldName = $(this).data('field-name');
+                var objectName = $(this).data('object-name');
+                var fieldIdx = $(this).parents(".where-list-item").find(".delete-where-field").data("field-idx");
+                var value = $(this).val();
+                _.find(allSObjects, function (obj, index) {
+                    if (obj.name == objectName) {
+                        allSObjects[index].whereData[fieldIdx*2].value = value;
+                        return true;
+                    }
+                });
+                parseAndDrawQuery();
+            });
+
+            /**
+             * Saves the Conjunction select changes to the object
+             */
+            $(".where-select-conjunction").change(function(){
+                var fieldName = $(this).data('field-name');
+                var objectName = $(this).data('object-name');
+                var fieldIdx = $(this).data("field-idx");
+                var value = $(this).val();
+                _.find(allSObjects, function(obj, index){
+                    if(obj.name == objectName){
+                        allSObjects[index].whereData[fieldIdx*2-1].value = value;
+                        return true;
+                    }
+                });
+                parseAndDrawQuery();
+            });
+        }
+
+        /**
+         * Draws the Where Clause UI
+         *
+         * @param e The obj The object
+         * @param e The fieldObj The object field
+         * @param e The index The WHERE clause element index
+         */
+        function drawWhereClauseElement(obj, fieldObj, index){
+            var objName= obj.name;
+            var fieldName = fieldObj.name;
+
+            var elemCount = $(".droppable-for-" + objName).find("li").length;
+            if(elemCount == 0){
+                var htmlFirstPart = '<li class="slds-list__item where-list-item where-item where-obj-'+(index - 1)+'" data-name="'+ fieldName +'" data-label="'+ fieldObj.label +'" data-type="field">' +
+                        '<p class="slds-truncate">'+ '<span class="where-item-index">' + index + ': </span>' + fieldObj.label +'</p>' +
+                        '<div class="slds-form-element inner-select-box">' +
+                        '<div class="slds-form-element__control">' +
+                        '<div class="slds-select_container">' +
+                        '<select class="slds-select where-select-operator" data-field-name="'+ fieldName +'" data-object-name="'+ objName +'">' +
+                        '<option>=</option><option>!=</option><option>></option><option><</option><option>LIKE</option>' +
+                        '</select></div></div></div>' +
+                        '<div class="slds-form-element inner-text-box">' +
+                        '<div class="slds-form-element__control">' +
+                        '<input class="slds-input where-input-value" type="text" data-field-name="'+ fieldName +'" data-object-name="'+ objName +'" />' +
+                        '</div></div>' +
+                        '<a href="javascript:" class="delete-where-field" data-field-idx="'+ (index - 1) +'" data-field-name="'+ fieldName +'" data-object-name="'+ objName +'">' +
+                        '<span class="glyphicon glyphicon-trash delete-where-field"></span></a>' +
+                        '</li>';
+                $(".droppable-for-" + objName).children("ul").html(htmlFirstPart);
+            }else if(elemCount >= 1){
+                var htmlSecondPart = '<div class="slds-form-element outer-select-box where-item where-obj-'+(index - 1)+'" data-name="'+ fieldName +'" data-type="conjunction">' +
+                        '<div class="slds-form-element__control">' +
+                        '<div class="slds-select_container">' +
+                        '<select class="slds-select where-select-conjunction" data-field-idx="'+ (index - 1) +'" data-field-name="'+ fieldName +'" data-object-name="'+ objName +'">' +
+                        '<option>AND</option><option>OR</option>' +
+                        '</select></div></div></div>' +
+
+                        '<li class="slds-list__item where-list-item where-item where-obj-'+(index - 1)+'" data-name="'+ fieldName +'" data-label="'+ fieldObj.label +'" data-type="field">' +
+                        '<p class="slds-truncate">'+ '<span class="where-item-index">' + index + ': </span>' + fieldObj.label +'</p>' +
+                        '<div class="slds-form-element inner-select-box">' +
+                        '<div class="slds-form-element__control">' +
+                        '<div class="slds-select_container">' +
+                        '<select class="slds-select where-select-operator" data-field-name="'+ fieldName +'" data-object-name="'+ objName +'">' +
+                        '<option>=</option><option>!=</option><option>></option><option><</option><option>LIKE</option>' +
+                        '</select></div></div></div>' +
+                        '<div class="slds-form-element inner-text-box">' +
+                        '<div class="slds-form-element__control">' +
+                        '<input class="slds-input where-input-value" type="text" data-field-name="'+ fieldName +'" data-object-name="'+ objName +'" />' +
+                        '</div></div>' +
+                        '<a href="javascript:" class="delete-where-field" data-field-idx="'+ (index - 1) +'" data-field-name="'+ fieldName +'" data-object-name="'+ objName +'">' +
+                        '<span class="glyphicon glyphicon-trash"></span>' +
+                        '</a></li>';
+                $(".droppable-for-" + objName).children("ul").append(htmlSecondPart);
+            }
+        }
+
+        /**
+         * Handles the click event of the Trash icons on the Where Clause list items
+         * Deletes the item from the QueryObject and re-draws the UI
+         */
+        $(document).on("click", ".delete-where-field", function(){
+            var fieldName = $(this).data('field-name');
+            var objectName = $(this).data('object-name');
+            var fieldIdx = $(this).data('field-idx');
+            _.find(allSObjects, function(obj, index){
+                if(obj.name == objectName){
+                    var whereData = _.reject(allSObjects[index].whereData, function(where, i){
+                        var fieldCondition = i / 2 === fieldIdx;
+                        var conjuctionCondition = (fieldIdx !== 0 && (i + 1) / 2 === fieldIdx) || (fieldIdx === 0 && (i - 1) / 2 === fieldIdx);
+                        return fieldCondition || conjuctionCondition;
+                    });
+                    allSObjects[index].whereData = whereData;
+                    return true;
+                }
+            });
+            // If the filter logic contains the deleted element, reset it as it is no longer valid
+            if(theQueryObject[0].filterLogic && theQueryObject[0].filterLogic.indexOf(fieldIdx + 1) >= 0){
+                delete theQueryObject[0].filterLogic;
+                $(".filter-logic input").val("");
+            }
+            renderSecondTab();
+            parseAndDrawQuery();
+            updateWhereElementsIndexes();
+        });
+    
+        /**
+         * Updates the WHERE elements UI indexes
+         */
+        function updateWhereElementsIndexes(){
+            $(".where-clause-wrap ul li").each(function(index) {
+                $(this).find(".where-item-index").text((index + 1) + ": ");
+                $(this).find(".where-item-index").data("field-idx", index);
+            });
+        }
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////// Tab 2 Code Ends /////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////// Tab 3 Code Starts ////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        /**
+         * Renders the Available Fields section, ORDER and LIMIT Clause Sections
+         */
+        function renderThirdTab(){
+            $(".available-fields-wrap-3").html('');
+            $(".order-clause-wrap").html('');
+
+            _.each(theQueryObject, function(obj, index) {
+                var html = '<ul data-name="' + obj.name + '" class="slds-list--vertical slds-has-cards--space has-selections available-tables-3">' +
+                        '<label class="slds-form-element__label">' + obj.label + '</label>';
+
+                if (obj.allFields) {
+                    _.each(obj.allFields, function (fieldObj, ind) {
+                        var field = fieldObj.name;
+                        html += '<li class="slds-list__item draggable-3 draggable-for-' + obj.name + ' draggable-for-field-'+ field +'" data-name="' + field + '" data-obj-name="' + obj.name + '">' +
+                                '<p class="slds-truncate">' + fieldObj.label + '</p></li>';
+                    });
+
+                    /**
+                     * Adds item Available Fields list
+                     */
+                    html += '</ul>';
+                    $(".available-fields-wrap-3").append(html);
+                }
+
+                /**
+                 * Populate order select box values
+                 */
+                if(obj.order && obj.order.length){
+                    _.each(obj.order, function(orderElement, index) {
+                        if(orderElement.name){
+                            drawOrderClauseElement(obj, orderElement);
+
+
+                            var parent = $('.order-trash[data-obj-name="' + obj.name + '"][data-name="' + orderElement.name + '"]').parents(".where-list-item");
+                            parent.find(".order-type").val(orderElement.type);
+                            parent.find(".order-nulls").val(orderElement.nulls);
+                            $(".draggable-for-field-"+orderElement.name).remove();
+                        }
+                    });
+                }
+
+                if(isLimitValid(limit)){
+                    $(".limit-text").val(limit);
+                }
+            });
+
+            enableDragAndDropTab3();
+        }
+
+        /**
+         * Enables drag and drop for the Available Fields list
+         */
+        var dropCompleteTab3 = false;
+        function enableDragAndDropTab3(){
+            $( ".draggable-3" ).draggable({ revert: "invalid", scroll: false, helper: 'clone', appendTo: 'body',
+                start: function(){
+                    dragStartTab3($(this));
+                },
+                drag: function(){},
+                stop: function(){
+                    dragStopTab3($(this));
+                }
+            });
+
+            /**
+             * Droppable target
+             */
+            $( ".order-clause-wrap" ).droppable({
+                disabled: false,
+                out: function ( event, ui ) {
+                    $(this).droppable("option", "disabled", false)
+                },
+                drop: function(event, ui){
+                    droppedTab3(event, ui);
+                }
+            });
+        }
+
+        /**
+         * Drag start callback for the Available Fields List
+         * @param elem {Object} jQuery object of the element that is being dragged
+         */
+        function dragStartTab3(elem){
+            elem.hide();
+            dropCompleteTab3 = false;
+            $('body').css('cursor','move');
+        }
+
+        /**
+         * Drag stop callback
+         * @param elem {Object} jQuery object of the element that is being dragged
+         */
+        function dragStopTab3(elem){
+            if(dropCompleteTab3){
+                elem.remove();
+            }else{
+                elem.show();
+            }
+        }
+
+        /**
+         * Drop callback
+         * @param event {Object} The dropping event
+         * @param ui {Object} The jQuery object of the element that is being dropped
+         */
+        function droppedTab3(event, ui){
+            dropCompleteTab3 = true;
+            var draggable = ui.draggable;
+            var fieldName = draggable.data("name");
+            var objName = draggable.data("obj-name");
+
+            var obj = _.where(theQueryObject, {name: objName})[0];
+            var fieldObj = _.where(obj.allFields, {name: fieldName})[0];
+
+            $('body').css('cursor','default');
+
+            drawOrderClauseElement(obj, fieldObj);
+            saveOrderData(obj, fieldObj);
+            parseAndDrawQuery();
+        }
+
+        /**
+         * Draws the Order Clause element
+         */
+        function drawOrderClauseElement(obj, field){
+            var objName = obj.name;
+            var fieldName = field.name;
+
+            var html = '<ul class="slds-list--vertical slds-has-cards--space has-selections order-clause-list">' +
+                    '<div class="slds-form-element__label obj-name-label">'+ obj.label +'</div>' +
+                    '<li class="slds-list__item where-list-item">' +
+                    '<p class="slds-truncate">'+ field.label +'</p>' +
+                    '<div class="slds-form-element inner-select-box">' +
+                    '<div class="slds-form-element__control">' +
+                    '<div class="slds-select_container">' +
+                    '<select class="slds-select order-type">' +
+                    '<option value="ASC">ASC</option><option value="DESC">DESC</option>' +
+                    '</select></div></div></div>' +
+                    '<div class="slds-form-element inner-text-box">' +
+                    '<div class="slds-form-element__control">' +
+                    '<div class="slds-select_container">' +
+                    '<select class="slds-select order-nulls">' +
+                    '<option value="NULLS FIRST">NULLS FIRST</option><option value="NULLS LAST">NULLS LAST</option>' +
+                    '</select></div></div></div>' +
+                    '<a href="javascript:" class="order-trash" data-obj-name="'+ objName +'" data-name="'+ fieldName +'">' +
+                    '<span class="glyphicon glyphicon-trash"></span>' +
+                    '</a></li></ul>';
+            $(".order-clause-wrap").append(html);
+            initOrderControls();
+        }
+
+        /**
+         * Initializes Select change triggers
+         */
+        function initOrderControls(){
+            $(".order-type").unbind("change");
+            $(".order-type").change(function(){
+                var elem = this;
+                var objName = $(elem).parents(".where-list-item").find(".order-trash").data("obj-name");
+                var fieldName = $(elem).parents(".where-list-item").find(".order-trash").data("name");
+                _.find(theQueryObject, function(obj, index){
+                    if(obj.name == objName){
+                        var order = _.findWhere(theQueryObject[index].order, {name: fieldName});
+                        order.type = $(elem).val();
+                        return true;
+                    }
+                });
+                parseAndDrawQuery();
+            });
+
+            $(".order-nulls").unbind("change");
+            $(".order-nulls").change(function(){
+                var elem = this;
+                var objName = $(elem).parents(".where-list-item").find(".order-trash").data("obj-name");
+                var fieldName = $(elem).parents(".where-list-item").find(".order-trash").data("name");
+                _.find(theQueryObject, function(obj, index){
+                    if(obj.name == objName){
+                        var order = _.findWhere(theQueryObject[index].order, {name: fieldName});
+                        order.nulls = $(elem).val();
+                        return true;
+                    }
+                });
+                parseAndDrawQuery();
+            });
+        }
+
+        /**
+         * Order Trash button handler
+         */
+        $(document).on("click", ".order-trash", function(){
+            var elem = this;
+            var objName = $(elem).data("obj-name");
+            var fieldName = $(elem).data("name");
+            _.find(theQueryObject, function(obj, index){
+                if(obj.name == objName){
+                    theQueryObject[index].order = _.filter(theQueryObject[index].order, function(item) {
+                         return item.name !== fieldName;
+                    });
+                    return true;
+                }
+            });
+            renderThirdTab();
+            parseAndDrawQuery();
+        });
+
+        /**
+         * Limit Text box handlers
+         */
+        $(".limit-text").keyup(function(){
+            handleLimitChange($(this));
+        });
+        $(".limit-text").change(function(){
+            handleLimitChange($(this));
+        });
+
+        /**
+         * Update the query after the limit value has changed 
+         *
+         * @param limitElement The limit UI element
+         */
+        function handleLimitChange(limitElement){
+            limit = limitElement.val();
+            parseAndDrawQuery();
+        }
+
+        $(".max-limit-info").text("The maximum limit is " + MAX_LIMIT_VALUE + ".");
+
+        $(".filter-logic input").keyup(function(){
+            theQueryObject[0].filterLogic = $(this).val();
+            parseAndDrawQuery();
+        });
+
+        /**
+         * Save Order data to theQueryObject when dropped
+         *
+         * @param object The object of the ORDER BY element
+         * @param field The field of the ORDER BY element
+         */
+        function saveOrderData(object, field){
+            var order = {};
+            order.type = 'ASC';
+            order.nulls = 'NULLS FIRST';
+            order.name = field.name;
+            order.label = field.label;
+
+            _.find(theQueryObject, function(obj, index){
+                if(obj.name == object.name){
+                    if(theQueryObject[index].order === undefined){
+                        theQueryObject[index].order = [];
+                    }
+                    theQueryObject[index].order.push(order);
+                    return true;
+                }
+            });
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////// Tab 3 Code Ends /////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////// Results Tab Code Starts /////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        /**
+        * Back button handler
+        */
+        $("#back-btn").click(function(){
+            $("#results-table-wrap").hide();
+            $("#qGenWrap").show();
+        });
+
+        /**
+         * Draw Results in table
+         *
+         * @param data The results to be rendered
+         */
+        function qGenQuerySFSuccess(data) {
+
+            // Remove previous results
+            $("#results-table-wrap table").remove();
+            $("#results-table-wrap div").remove();
+
+            var thead = $("<thead></thead>");
+            var theadRow = $('<tr class="slds-text-heading--label"></tr>');
+            thead.append(theadRow);
+
+            // Populate the parent object table header 
+            _.each(theQueryObject[0].fields, function(field, fieldIndex){
+                var th = '<th><span class="slds-truncate">' + field + '</span></th>';
+                theadRow.append(th);
+            });   
+
+            _.each(data.records, function(record, recordIndex){
+
+                var parentTitle = $('<div class="slds-m-top--medium">' + theQueryObject[0].name + '</div>');
+
+                var table = $('<table class="slds-table slds-table--bordered slds-box slds-theme--shade"></table>');
+                table.append(thead.clone());
+                var tbody = $('<tbody></tbody>');
+                table.append(tbody);
+
+                // Populate the parent object row
+                var tr = $('<tr></tr>');
+                _.each(theQueryObject[0].fields, function(field, fieldIndex){
+                    var td = '<td><span class="slds-truncate">' + record[field] + '</span></td>';
+                    tr.append(td);
+                });
+
+                tbody.append(tr);
+
+                $("#results-table-wrap").append(parentTitle);
+                $("#results-table-wrap").append(table);
+
+                // Get children
+                _.each(theQueryObject, function(childObject, childObjectIndex){
+                    // Skip th first object (the parent)
+                    if(childObjectIndex != 0){
+                        var childTitle = $('<div class="slds-m-top--medium">' + childObject.labelPlural + '</div>');
+                        table.after(childTitle);
+
+                        var relationship = _.findWhere(theQueryObject[0].childRelationships, {childSObject: childObject.name});
+                        var childObjectData = record[relationship.relationshipName];
+
+                        var childTableWrapper = $('<div class="slds-m-top--medium"></div>');
+                        if(childObjectData && childObjectData.records.length){
+                            var childThead = $("<thead></thead>");
+                            var childTheadRow = $('<tr class="slds-text-heading--label"></tr>');
+                            childThead.append(childTheadRow);
+
+                            // Populate the child object table header
+                            _.each(childObject.fields, function(field, fieldIndex){
+                                var th = '<th><span class="slds-truncate">' + field + '</span></th>';
+                                childTheadRow.append(th);
+                            });
+
+                            var childTable = $('<table class="slds-table slds-table--bordered"></table>');
+                            childTable.append(childThead);
+                            var childTbody = $('<tbody></tbody>');
+                            childTable.append(childTbody);
+
+                            var childRecords = childObjectData.records;
+
+                            _.each(childRecords, function(childRecord, childRecordIndex){
+                                // Populate the child object rows
+                                var tr = $('<tr></tr>');
+                                _.each(childObject.fields, function(field, fieldIndex){
+                                    var td = '<td><span class="slds-truncate">' + childRecord[field] + '</span></td>';
+                                    tr.append(td);
+                                });
+
+                                childTbody.append(tr);
+                            });
+                            childTableWrapper.append(childTable);
+                        } else {
+                            childTableWrapper.html('<span class="slds-text-body--small">There are no records.</span>');
+                        }
+                        childTitle.after(childTableWrapper);
+                    }
+                });
+            });
+            
+        }
+        
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////// Results Tab Code Ends //////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        
+        
+    });
+
+</script>
+
+<!-- Error message wrapper -->
+<div id="errorBox" class="slds-notify slds-notify--alert slds-theme--error hide" role="alert"></div>
+<!-- Query Generator Section -->
+<div id="qGenWrap" class="hide-me">
+
+    <!-- Top Section -->
+    <div class="slds-card query-wrap-card">
+        <div class="slds-card__body">
+            <div class="slds-grid">
+
+                <!-- Query Section -->
+                <div class="slds-col--padded slds-size--4-of-5">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="query-text">Current Query Syntax:</label>
+                        <div class="slds-form-element__control">
+                            <textarea id="query-text" rows="4" class="slds-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stacked Buttons -->
+                <div class="slds-col--padded slds-size--1-of-5 stacked-btns-wrap">
+                    <div class="slds-x-small-buttons--stacked query-opt-btns pull-left">
+                        <button class="slds-button slds-button--neutral slds-x-small-button--stacked" id="run-query">Run Query</button>
+                        <button class="slds-button slds-button--neutral slds-x-small-button--stacked" id="save-query">Save Query</button>
+                        <span class="stacked-btn-divider"></span>
+                        <button class="slds-button slds-button--neutral slds-x-small-button--stacked" id="load-query">Load Query</button>
+
+                        <!-- Load Query Popup -->
+                        <div class="slds-popover slds-nubbin--top-right hide-me" role="dialog">
+                            <div class="slds-popover__header">
+                                <a href="javascript:" class="slds-text-label">Load Existing Query</a>
+                                <div class="slds-popover__body saved-queries-popover">
+                                    
+                                    <div class="slds-grid--vertical saved-queries-wrap">
+                                    
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="slds-tabs--scoped">
+
+        <!-- Tabs -->
+        <ul class="slds-tabs--scoped__nav" role="tablist">
+            <li class="slds-tabs--scoped__item slds-text-heading slds-active" id="tab-1" data-tab="1" title="Item One" role="presentation">
+                <a class="slds-tabs--scoped__link" href="#void" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-scoped-1" id="tab-scoped-1__item">Select Tables & Fields</a>
+            </li>
+            <li class="slds-tabs--scoped__item slds-text-heading" id="tab-2" data-tab="2" title="Item Two" role="presentation">
+                <a class="slds-tabs--scoped__link" href="#void" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-2" id="tab-scoped-2__item">Add "WHERE" Clause</a>
+            </li>
+            <li class="slds-tabs--scoped__item slds-text-heading" id="tab-3" data-tab="3" title="Item Three" role="presentation">
+                <a class="slds-tabs--scoped__link" href="#void" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-3" id="tab-scoped-3__item">Add "ORDER" and "LIMIT" Clause</a>
+            </li>
+        </ul>
+
+        <!-- Tab Contents -->
+        <!-- Select Tables and Fields Tab Content -->
+        <div id="tab-scoped-1" class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">
+            <div class="slds-grid">
+
+                <!-- Available sObjects -->
+                <div class="slds-col--padded slds-size--4-of-12">
+                    <div class="border">
+                        <div class="slds-card">
+                            <div class="slds-card__body slds-card__custom">
+                                <span class="slds-text-heading">
+                                    Available Tables
+                                </span>
+                                <br/>
+                                <span class="slds-text-body--small">
+                                    Drag and drop tables to add them to the query.
+                                </span>
+                            </div>
+                        </div>
+                        <ul class="slds-list--vertical slds-has-cards--space has-selections available-tables-1">
+
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- Selected sObjects Wrap -->
+                <div class="slds-col--padded slds-size--8-of-12">
+                    <div class="border droppable-wrap-1">
+                        <div class="slds-card">
+                            <div class="slds-card__body slds-card__custom">
+                                <span class="slds-text-heading">
+                                    Selected Tables
+                                </span>
+                                <br/>
+                                <span class="slds-text-body--small">
+                                    Drag and drop to re-arrange the tables.
+                                    Click on a table's name to select which fields to add to the query.
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Selected sObjects List -->
+                        <ul class="slds-list--vertical slds-has-cards--space has-selections selected-tables-1">
+
+                        </ul>
+
+                        <!-- Fields of selected sObject -->
+                        <div class="border-2" id="border-2">
+                            <div class="slds-text-body--label">Select Fields:</div>
+                            <div class="slds-form-element slds-truncate">
+                                <label class="slds-checkbox" for="all-fields">
+                                    <input name="checkbox" type="checkbox" id="all-fields" />
+                                    <span class="slds-checkbox--faux"></span>
+                                    <span class="slds-text-body--small">All Fields</span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Where Clause Tab Content -->
+        <div id="tab-scoped-2" class="slds-tabs--scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-2__item">
+            <div class="slds-grid">
+                <div class="slds-col--padded slds-size--4-of-12">
+                    <div class="border">
+                        <div class="slds-card">
+                            <div class="slds-card__body slds-card__custom">
+                                <span class="slds-text-heading">
+                                    Available Fields
+                                </span>
+                                <br/>
+                                <span class="slds-text-body--small">
+                                    Drag and drop fields to add query conditions.
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="available-fields-wrap">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col--padded slds-size--8-of-12">
+                    <div class="border">
+                        <div class="slds-card">
+                            <div class="slds-card__body slds-card__custom">
+                                <span class="slds-text-heading">
+                                    WHERE Clause
+                                </span>
+                            </div>
+                        </div>
+                        <div class="slds-form-element filter-logic">
+                            <label class="slds-form-element__label" for="sample1">Filter Logic</label>
+                            <div class="slds-form-element__control">
+                                <input id="sample1" class="slds-input" type="text" placeholder="E.g. 1 AND (2 OR 3)" />
+                            </div>
+                            <span class="slds-text-body--small">
+                                Use the indexes of the WHERE elements to reference them. If the filter logic is invalid, the conjuctions below will be used.
+                            </span>
+                        </div>
+                        <div class="slds-grid--vertical where-clause-wrap">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Order and Limit Tab Content -->
+        <div id="tab-scoped-3" class="slds-tabs--scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-3__item">
+            <div class="slds-grid">
+                <div class="slds-col--padded slds-size--4-of-12">
+                    <div class="border">
+                        <div class="slds-card">
+                            <div class="slds-card__body slds-card__custom">
+                                <span class="slds-text-heading">
+                                    Available Fields
+                                </span>
+                                <br/>
+                                <span class="slds-text-body--small">
+                                    Drag and drop fields to add query conditions.
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="available-fields-wrap-3">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col--padded slds-size--8-of-12">
+
+                    <div class="slds-grid--vertical">
+                        <div class="slds-col">
+                            <div class="border border-3">
+                                <div class="slds-card">
+                                    <div class="slds-card__body slds-card__custom">
+                                        <span class="slds-text-heading">
+                                            ORDER Clause
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="slds-grid--vertical">
+                                    <div class="slds-col--padded order-clause-wrap">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <div class="border border-3">
+                                <div class="slds-card">
+                                    <div class="slds-card__body slds-card__custom">
+                                <span class="slds-text-heading">
+                                    LIMIT Clause
+                                </span>
+                                    </div>
+                                </div>
+
+                                <div class="slds-grid--vertical">
+                                    <div class="slds-col--padded">
+
+                                        <ul class="slds-list--vertical slds-has-cards--space has-selections">
+                                            <li class="slds-list__item where-list-item">
+                                                <p class="slds-truncate limit-text">Set Limit (optional)</p>
+                                                <div class="slds-form-element inner-text-box">
+                                                    <div class="slds-form-element__control">
+                                                        <input class="slds-input limit-text" type="number" />
+                                                    </div>
+                                                </div>
+                                                <span class="slds-text-body--small max-limit-info">
+                                                </span>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Next / Previous buttons section -->
+    <ul class="pager">
+        <li class="previous">
+            <button class="slds-button slds-button--neutral" id="previous">
+                <span aria-hidden="true">&larr;</span> Previous
+            </button>
+        </li>
+        <li class="next">
+            <button class="slds-button slds-button--neutral" id="next">
+                Next <span aria-hidden="true">&rarr;</span>
+            </button>
+        </li>
+    </ul>
+
+</div>
+<!-- Query Generator Section Ends -->
+
+
+<!-- Display Results Start -->
+<div id="results-table-wrap" class="hide-me">
+    <!-- Back Button -->
+    <ul class="pager">
+        <li class="previous">
+            <button class="slds-button slds-button--neutral" id="back-btn">
+                <span aria-hidden="true">&larr;</span> Back
+            </button>
+        </li>
+    </ul>
+</div>
+
+<script>
+    
+    /**
+     * To avoid Errors that appear when html is run in IFRAME Sandbox Mode 
+     */
+    function onSuccess(){
+        google.script.host.close();
+        return true;
+    }
+    
+    /**
+     * Submits the query form 
+     */
+    function processQueue(){
+        google.script.run.withSuccessHandler(onSuccess)
+                .processForm(document.getElementById('qform'));
+    }
+    
+</script>
+
+<div id="configs" class="well">
+    <div id="results" class="label-success label"></div>
+
+    <form role="form" id="qform" name="qform" onSubmit="processQueue()">
+    
+        <div class="form-group">
+            <label for="qName">Name</label>
+            <input class="form-control" type="text" id="qName" name="qName" <? if(editing && Queries[position-3].qname!="null"){ ?> value="<?=Queries[position-3].qname ?>" <? }?> >
+        </div>
+    
+        <fieldset>
+            <legend class="label label-warning text-left"> Query </legend>
+            
+            <div class="form-group query-create <? if(editing){ ?>hide-me<? } ?>">
+                <a href="javascript:" class="slds-button slds-button--brand full-width" id="create-query-btn">Create a Query</a>                
+            </div>
+            <div class="form-group slds-form--inline query-saved <? if(!editing){ ?>hide-me<? } ?>">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <input type="text" id="selQuery" name="selQuery" class="slds-input hide-me" <? if(editing){ ?>value=<?=Queries[position-3].query ?><? } ?> />
+                        <a href="javascript:" class="slds-button slds-button--neutral slds-truncate selQuery-fake"><? if(editing){ ?><?=Queries[position-3].query ?><? } ?></a>
+                    </div>
+                </div>
+                <a href="javascript:" class="slds-button slds-button--brand" id="edit-query-btn">Edit Query</a>
+            </div>
+            
+            <div id="divAddNew" class="form-group" style="display:none">
+                <label for="addQuery" class="text-center">Add New Query</label>
+                <input class="form-control" type="text" id="addQuery" name="addQuery"
+                <? if(editing){ ?>
+                value="<?=Queries[position-3].sheetName ?>"
+                <? } else ?>
+                value="">
+           </div>
+        </fieldset>
+        
+        <div class="form-group">
+            <label for="selActive">Active</label>
+            <select class="form-control" id="selActive" name="selActive" required>
+                <? if(editing){ ?>
+                <option value=<?=Queries[position-3].status ?> > Current - <?=  Queries[position-3].status ?></option>
+                <? }?>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="sheetName">Output Sheet Name</label>
+            <input class="form-control" required type="text" id="sheetName" name="sheetName"
+            <? if(editing){ ?>
+            value="<?=Queries[position-3].sheetName ?>"
+            <? }?> >
+        </div>
+
+        <div class="form-group">
+            <label for="outputMode">Output Mode</label>
+            <select class="form-control" id="outputMode" name="outputMode" required>
+                <? if(editing){ ?>
+                <option value=<?=Queries[position-3].qMode ?> > Current - <?=  Queries[position-3].qMode ?></option>
+                <? }?>
+                <option>Tabular</option>
+                <option>Multiple</option>
+                <option>Chunker</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="parentExt">Parent Ext Field Id</label>
+            <input class="form-control" type="text" id="parentExt" name="parentExt"
+            <? if(editing && Queries[position-3].parentExtField!="null"){ ?>
+            value="<?=Queries[position-3].parentExtField ?>"
+            <? }?> >
+        </div>
+
+        <div class="form-group">
+            <label for="childExt">Child Ext Field Id</label>
+            <input class="form-control" type="text" id="childExt" name="childExt"
+            <? if(editing && Queries[position-3].childExtField!="null"){ ?>
+            value="<?=Queries[position-3].childExtField ?>"
+            <? }?> >
+        </div>
+
+        <fieldset>
+            <legend class="label label-warning text-left">Chunk</legend>
+            <div class="form-group">
+                <label for="chunkNum">Chunk Size</label>
+                <input class="form-control" type="text" id="chunkNum" name="chunkNum"
+                <? if(editing && Queries[position-3].chunkSize!="null"){ ?>
+                value="<?=Queries[position-3].chunkSize ?>"
+                <? }?> >
+            </div>
+
+            <div class="form-group">
+                <label for="chunkCol">Chunk Column</label>
+                <input class="form-control" type="text" id="chunkCol" name="chunkCol"
+                <? if(editing && Queries[position-3].chunkCol!="null"){ ?>
+                value="<?=Queries[position-3].chunkCol ?>"
+                <? }?> >
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend class="label label-warning">Template</legend>
+            <div class="form-group">
+                <label for="chunkCol">Total Column Name</label>
+                <input class="form-control" type="text" id="totalColName" name="totalColName"
+                <? if(editing && Queries[position-3].templateTotalColumn!="null"){ ?>
+                value="<?=Queries[position-3].templateTotalColumn ?>"
+                <? }?> >
+            </div>
+            <div class="form-group">
+                <label for="chunkCol">Line Label</label>
+                <input class="form-control" type="text" id="templateLbl1" name="templateLbl1"
+                <? if(editing && Queries[position-3].templateLabel1!="null"){ ?>
+                value="<?=Queries[position-3].templateLabel1 ?>"
+                <? }?> >
+            </div>
+
+            <div class="form-group">
+                <label for="chunkCol">Line Formula</label>
+                <input class="form-control" type="text" id="templateFormula1" name="templateFormula1"
+                <? if(editing && Queries[position-3].templateFormula1!="null"){ ?>
+                value="<?=Queries[position-3].templateFormula1.substring(1) ?>"
+                <? }?> >
+            </div>
+
+            <div class="form-group">
+                <label for="chunkCol">Line Label</label>
+                <input class="form-control" type="text" id="templateLbl2" name="templateLbl2"
+                <? if(editing && Queries[position-3].templateLabel2!="null"){ ?>
+                value="<?=Queries[position-3].templateLabel2 ?>"
+                <? }?> >
+            </div>
+
+            <div class="form-group">
+                <label for="chunkCol">Line Formula</label>
+                <input class="form-control" type="text" id="templateFormula2" name="templateFormula2"
+                <? if(editing && Queries[position-3].templateFormula2!="null"){ ?>
+                value="<?=Queries[position-3].templateFormula2.substring(1) ?>"
+                <? }?> >
+            </div>
+            <? if(editing){?>
+            <input class="form-control" type="hidden" id="edit" name="edit" value="<?=position ?>">
+            <?}?>
+            <input type="submit" class="btn btn-lg btn-success" value=<? if(!editing){?>"Add"<?}else{?>"Change"<?}?>>
+        </fieldset>
+    </form>
+</div>
